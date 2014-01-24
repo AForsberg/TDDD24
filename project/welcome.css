@@ -1,0 +1,15 @@
+body{
+	background-color: #00A480;	
+}
+#logo{
+	width: 340px;
+}
+#login{
+	width: 250px;
+	background-color: #5ED2B8;
+}
+#signup{
+	width: 250px;
+	background-color: #34D2AE;
+	padding: 5px;
+}
