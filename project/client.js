@@ -1,7 +1,11 @@
 var displayView = function() {
-	//Displays a view
+    //Displays a view
 };
 
-document.onload = function(){
-	//Runs when page is loaded
+window.onload = function() {
+    //Runs when page is loaded
+    
+    var temp = document.getElementById("welcomeView").innerHTML;
+    console.log(temp);
+    document.getElementById("view").innerHTML += temp;
 };
