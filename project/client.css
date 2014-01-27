@@ -39,3 +39,6 @@ body{
 	margin: 0px;
 	text-align: center;
 }
+.error{
+	border-color: red;
+}

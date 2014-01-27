@@ -15,22 +15,22 @@
 				<input type="submit" value="Login">
 				<label id="loginMsg"></label>
 			</form>
-			<form id="signup" onsubmit="return signUp()">
+			<form id="signup" onsubmit="return signUp();false">
 				<h1>Signup here</h1>
 				<label for="email"> Email: </label>
-				<input id="email" type="text" onkeyup="clear()"/>
+				<input id="email" type="text"/>
 				<br>
 				<label for="psw">Password:</label>
-				<input id="psw" type="password" onkeypress="clear(this)"/>
+				<input id="psw" type="password"/>
 				<br>
 				<label for="rpsw">Repeat psw:</label>
-				<input id="rpsw" type="password" onkeypress="clear(this)"/>
+				<input id="rpsw" type="password"/>
 				<br>
-				<label for="firstname" >First name:</label>
-				<input id="firstname" type="text" onkeypress="clear(this)"/>
+				<label for="firstname">First name:</label>
+				<input id="firstname" type="text"/>
 				<br>
 				<label for="lastname">Last name:</label>
-				<input id="lastname" type="text" onkeypress="clear(this)"/>
+				<input id="lastname" type="text"/>
 				<br>
 				<label for="gender">Gender:</label>
 				<select id="gender" name="gender">
@@ -39,10 +39,10 @@
 				</select>
 				<br>
 				<label for="city">City:</label>
-				<input id="city" type="text" onkeypress="clear(this)"/>
+				<input id="city" type="text"/>
 				<br>
 				<label for="country">Country:</label>
-				<input id="country" type="text" onkeypress="clear(this)"/>
+				<input id="country" type="text"/>
 				<input type="submit" value="Signup">
 				<label id="signupMsg"></label>
 			</form>
