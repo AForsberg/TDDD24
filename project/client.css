@@ -34,11 +34,16 @@ body{
 #loginMsg{
 }
 #signupMsg{
+	float: left;
 }
-#signup h1{
+#center h1{
+	font-size: 18px;
 	margin: 0px;
 	text-align: center;
 }
 .error{
 	border-color: red;
+}
+.submitbtn{
+	float:right;
 }

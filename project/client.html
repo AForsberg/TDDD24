@@ -6,31 +6,32 @@
 		<script src ="serverstub.js" type="text/javascript"></script>
 		<script id="welcomeView" type="text/view"><div id="center">
 			<img id="logo" src="wimage.png">
-			<form id="login">
+			<form id="login" onsubmit="validateLogin();return false">
+            <h1>Login here</h1>
 				<label>Email:</label>
-				<input type="text" />
+				<input id="logemail" type="text" />
 				<br>
 				<label>Password:</label>
-				<input type="text" />
-				<input type="submit" value="Login">
+				<input id="logpassword" type="password" />
+				<input type="submit" class="submitbtn" value="Login">
 				<label id="loginMsg"></label>
 			</form>
-			<form id="signup" onsubmit="return signUp();false">
+			<form id="signup" onsubmit="validateSignUp(); return false">
 				<h1>Signup here</h1>
 				<label for="email"> Email: </label>
 				<input id="email" type="text"/>
 				<br>
-				<label for="psw">Password:</label>
-				<input id="psw" type="password"/>
+				<label for="password">Password:</label>
+				<input id="password" type="password"/>
 				<br>
-				<label for="rpsw">Repeat psw:</label>
+			    <label for="rpsw">Repeat psw:</label>
 				<input id="rpsw" type="password"/>
 				<br>
 				<label for="firstname">First name:</label>
 				<input id="firstname" type="text"/>
 				<br>
-				<label for="lastname">Last name:</label>
-				<input id="lastname" type="text"/>
+				<label for="familyname">Last name:</label>
+				<input id="familyname" type="text"/>
 				<br>
 				<label for="gender">Gender:</label>
 				<select id="gender" name="gender">
@@ -43,14 +44,16 @@
 				<br>
 				<label for="country">Country:</label>
 				<input id="country" type="text"/>
-				<input type="submit" value="Signup">
+				<input type="submit" class="submitbtn" value="Signup">
 				<label id="signupMsg"></label>
 			</form>
 		</div>
 	</form>
     </script>
     <script id="profileView" type="text/view">here is the profile</script>
-		<title>Twidder - Socialize with other people around the world!</title>
+		
+
+        <title>Twidder - Socialize with other people around the world!</title>
 	</head>
 	<body>
 
