@@ -47,3 +47,44 @@ body{
 .submitbtn{
 	float:right;
 }
+#home{
+}
+#browse{
+	width:232px;	/**Don't ask.**/
+}
+#account{
+}
+#container{
+	width: 700px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.menuButton:hover{
+	cursor:pointer;
+	opacity: 0.5;
+}
+.menuButton{
+	background-color: #006B53;
+	color: white;
+	border:1px solid #006B53;
+	width: 231px;
+	height: 50px;
+	float: left;
+	text-align: center;
+	padding-top: 20px;
+	
+}
+#choiceBar{
+	background-color: #FE6100;
+}
+.show{
+	background-color: #FE6100;
+	display: block;
+}
+.hide{
+	display: none;
+}
+.selected{
+	border-color: #FE6100;
+
+}

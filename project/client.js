@@ -16,6 +16,7 @@ var displayView = function() {
 
 	if (window.localStorage.loggedinusers) {
     	document.getElementById("view").innerHTML = document.getElementById("profileView").innerHTML;
+    	changeView(document.getElementById("home"));
     }else{
     	document.getElementById("view").innerHTML = document.getElementById("welcomeView").innerHTML;
 
@@ -39,6 +40,8 @@ var displayView = function() {
 window.onload = function() {
     //Runs when page is loaded
     displayView();
+
+    
 
 };
 
@@ -108,5 +111,27 @@ var validateSignUp = function(formData) {
     	console.log("Failed!");
     return noError;
 }
+var changeView = function(a){
+	var bars = document.getElementById("choiceBar").getElementsByTagName("div");
+	var buttons = document.getElementById("menuBar").getElementsByTagName("div");
+	for (var i = bars.length - 1; i >= 0; i--) {
+		bars[i].classList.add("hide");
+	};
+	for (var i = buttons.length - 1; i >= 0; i--) {
+		buttons[i].classList.remove("selected");
+	};
+	var selected = document.getElementById(a.id+"Bar");
+	console.log(selected);
+	selected.classList.remove("hide");
+	selected.classList.add("show");
+	a.classList.add("selected");
+}
+
+//          \__\
+//      o   (oo)
+//   ____\___\/ 
+//  / |     ||  
+// *  ||----||  
+//    OO    OO  
 
 
