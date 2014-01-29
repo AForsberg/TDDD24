@@ -5,47 +5,84 @@
 		<script src="client.js" type="text/javascript"></script>
 		<script src ="serverstub.js" type="text/javascript"></script>
 		<script id="welcomeView" type="text/view"><div id="center">
-			<img id="logo" src="wimage.png">
-			<form id="login" onsubmit="validateLogin();return false">
+			
+            <!--****************************
+            **    ...WELCOME VIEW...      **
+            *****************************-->
+            <img id="logo" src="wimage.png">            
+            <!--****************************
+            **           LOGIN            **
+            *****************************-->
+            <form id="login" onsubmit="validateLogin();return false">
                 <h1>Login here</h1>
 
-                <div class="formRow"><label>Email:</label>
-                    <input id="logemail" type="text" /></div>
-                    <div class="formRow"><label>Password:</label>
-                        <input id="logpassword" type="password" /></div>
-                        <input type="submit" class="submitbtn" value="Login">
-                        <label id="loginMsg"></label>
-                    </form>
-                    <form id="signup" onsubmit="validateSignUp(); return false">
-                        <h1>Signup here</h1>
-                        <div class="formRow"><label for="email"> Email: </label>
-                            <input id="email" type="text"/></div>
-                            <div class="formRow"><label for="password">Password:</label>
-                                <input id="password" type="password"/></div>
-                                <div class="formRow"><label for="rpsw">Repeat psw:</label>
-                                    <input id="rpsw" type="password"/></div>
-                                    <div class="formRow"><label for="firstname">First name:</label>
-                                        <input id="firstname" type="text"/></div>
-                                        <div class="formRow"><label for="familyname">Last name:</label>
-                                            <input id="familyname" type="text"/></div>
-                                            <div class="formRow"><label for="gender">Gender:</label>
-                                                <select id="gender" name="gender">
-                                                   <option value="male">Male</option>
-                                                   <option value="female">Female</option>
-                                               </select></div>
-                                               <div class="formRow"><label for="city">City:</label>
-                                                <input id="city" type="text"/></div>
-                                                <div class="formRow"><label for="country">Country:</label>
-                                                    <input id="country" type="text"/></div>
-                                                    <input type="submit" class="submitbtn" value="Signup">
-                                                    <label id="signupMsg"></label>
-                                                </form>
-                                            </div>
-                                        </form>
+                <div class="formRow">
+                    <label>Email:</label>
+                    <input id="logemail" type="text" />
+                </div>
+                <div class="formRow">
+                    <label>Password:</label>
+                    <input id="logpassword" type="password" />
+                </div>
+                <input type="submit" class="submitbtn" value="Login">
+                <label id="loginMsg"></label>
+            </form>
+            <!--****************************
+            **          SIGNUP            **
+            *****************************-->
+            <form id="signup" onsubmit="validateSignUp(); return false">
+                <h1>Signup here</h1>
+                <div class="formRow">
+                    <label for="email">Email:</label>
+                    <input id="email" type="text" />
+                </div>
+                <div class="formRow">
+                    <label for="password">Password:</label>
+                    <input id="password" type="password" />
+                </div>
+                <div class="formRow">
+                    <label for="rpsw">Repeat psw:</label>
+                    <input id="rpsw" type="password" />
+                </div>
+                <div class="formRow">
+                    <label for="firstname">First name:</label>
+                    <input id="firstname" type="text" />
+                </div>
+                <div class="formRow">
+                    <label for="familyname">Last name:</label>
+                    <input id="familyname" type="text" />
+                </div>
+                <div class="formRow">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
+                <div class="formRow">
+                    <label for="city">City:</label>
+                    <input id="city" type="text" />
+                </div>
+                <div class="formRow">
+                    <label for="country">Country:</label>
+                    <input id="country" type="text" />
+                </div>
+                <input type="submit" class="submitbtn" value="Signup">
+                <label id="signupMsg"></label>
+            </form>
+            </div>
+            </form>
+
         </script>
         <script id="profileView" type="text/view">
-            <div id="container">
 
+            <!--****************************
+            **     ...PROFILE VIEW...     **
+            *****************************-->
+            <div id="container">
+                <!--****************************
+                **         MENU BAR           **
+                *****************************-->
                 <div id="menuBar">
                     <div class="menuButton" id="home" onclick="changeView(this)" >
                         <label>Home</label>
@@ -57,27 +94,29 @@
                         <label>Account</label>
                     </div>
                 </div>
-
                 <!--****************************
                 **          HOME              **
-                ******************************-->
+                *****************************-->
                 <div class="content" id="homeContent">
                     <div class="bar">
                     </div>
                     <div id="personalInfo">
-                        <label id="fname">Firstname: </label>
-                        <label id="lname">Familyname: </label>
-                        <label id="email">Email: </label>
-                        <label id="gender">Gender: </label>
-                        <label id="city">City: </label>
-                        <label id="country">Country: </label>
+                        <label id="fname"></label>
+                        <label id="lname"></label>
+                        <br>
+                        <label id="email"></label>
+                        <label id="gender"></label>
+                        <label id="city"></label>
+                        <label id="country"></label>
                     </div>
+                    <hr>
                     <div id="messageBox">
                         <textarea id="postMsg"></textarea>
                         <button id="postButton" onclick="postMsg()">Post</button>
                         <button id="buttonWallRefresh" onclick="loadWall()">Refresh Wall</button>
                     </div>
-                    <div id="wall">
+                    <hr>
+                    <div id="wall" style="text-align: center">
                         <div id="wallContent">
                             //add post here
                         </div>   
@@ -85,26 +124,32 @@
                 </div>
                 <!--****************************
                 **          BROWSE            **
-                ******************************-->
+                *****************************-->
                 <div class="content" id="browseContent">
                     <div class="bar">
                         <label>Search user</label>
                     </div>
+                    <hr>
                 </div>
                 <!--****************************
-                **          ACCOUNT            **
-                ******************************-->
+                **          ACCOUNT           **
+                *****************************-->
                 <div class="content" id="accountContent">
                     <div class="bar">
                         <label onclick="showPasswordChanger()">Change Password</label>
                         <label onclick="signOut()">Sign Out</label>
                     </div>
+                    <hr>
                     <form id="passwordChanger" class="hide" onsubmit="changePassword();return false">
-                        <div class="formRow"><label for="oldPassword">Current Password:</label>
-                        <input type="password" id="oldPassword"/></div>
-                        <div class="formRow"><label for="newPassword">New Password</label>
-                        <input type="password" id="newPassword"/></div>
-                        <input type="submit" id="submitPassword" value="Change it!"/>
+                        <div class="formRow">
+                            <label for="oldPassword">Current Password:</label>
+                            <input type="password" id="oldPassword"/>
+                        </div>
+                        <div class="formRow">
+                            <label for="newPassword">New Password:</label>
+                            <input type="password" id="newPassword"/>
+                        </div>
+                        <input class="button" type="submit" id="submitPassword" value="Change it!"/>
                         <label id="changeMsg"></label>
                     </form>
                 </div>
