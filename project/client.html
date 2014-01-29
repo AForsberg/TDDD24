@@ -42,78 +42,81 @@
                                                 </form>
                                             </div>
                                         </form>
-    </script>
-    <script id="profileView" type="text/view">
-    
-    <div id="container">
+        </script>
+        <script id="profileView" type="text/view">
+            <div id="container">
 
-    <div id="menuBar">
-        <div class="menuButton" id="home" onclick="changeView(this)">
-            <label>Home</label>
+                <div id="menuBar">
+                    <div class="menuButton" id="home" onclick="changeView(this)" >
+                        <label>Home</label>
+                    </div>
+                    <div class="menuButton" id="browse" onclick="changeView(this)">
+                        <label>Browse</label>
+                    </div>
+                    <div class="menuButton" id="account" onclick="changeView(this)">
+                        <label>Account</label>
+                    </div>
+                </div>
 
-        </div>
-
-        <div class="menuButton" id="browse" onclick="changeView(this)">
-            <label>Browse</label>
-
-
-        </div>
-
-        <div class="menuButton" id="account" onclick="changeView(this)">
-            <label>Account</label>
-
-
-        </div>
-    </div>
-    <div id="choiceBar">
-        <div id="accountBar">
-            <nav>
-
-                <label onclick="showPasswordChanger()">Change Password</label>
-                <label onclick="signOut()">Sign Out</label>
-
-            </nav>
-        </div>
-        <div id="browseBar">
-            <nav>
-
-                <label>Search user</label>
-
-            </nav>
-        </div>
-        <div id="homeBar">
-            <nav>
-
-                <label>You are signed in</label>
-                
-
-            </nav>
-        </div>
-    </div>
-    <div id="content">
-        <form id="passwordChanger" class="hide" onsubmit="changePassword();return false">
-        <div class="formRow"><label for="oldPassword">Current Password:</label>
-            <input type="password" id="oldPassword"/></div>
-        <div class="formRow"><label for="newPassword">New Password</label>
-            <input type="password" id="newPassword"/></div>
-            <input type="submit" id="submitPassword" value="Change it!"/>
-            <label id="changeMsg"></label>
-        </form>
-
-        
-    </div>
-
-</div>
-</script>
-		
-
+                <!--****************************
+                **          HOME              **
+                ******************************-->
+                <div class="content" id="homeContent">
+                    <div class="bar">
+                        <label>You are signed in</label>
+                    </div>
+                    <div id="personalInfo">
+                        <label id="fname">Firstname: </label>
+                        <label id="lname">Familyname: </label>
+                        <label id="email">Email: </label>
+                        <label id="gender">Gender: </label>
+                        <label id="city">City: </label>
+                        <label id="country">Country: </label>
+                    </div>
+                    <div id="messageBox">
+                        <textarea id="postMsg"></textarea>
+                        <button id="postButton" onclick="postMsg()">Post</button>
+                    </div>
+                    <div id="wall">
+                        //add post here
+                    </div>
+                </div>
+                <!--****************************
+                **          BROWSE            **
+                ******************************-->
+                <div class="content" id="browseContent">
+                    <div class="bar">
+                        <label>Search user</label>
+                    </div>
+                </div>
+                <!--****************************
+                **          ACCOUNT            **
+                ******************************-->
+                <div class="content" id="accountContent">
+                    <div class="bar">
+                        <label onclick="showPasswordChanger()">Change Password</label>
+                        <label onclick="signOut()">Sign Out</label>
+                    </div>
+                    <form id="passwordChanger" class="hide" onsubmit="changePassword();return false">
+                        <div class="formRow"><label for="oldPassword">Current Password:</label>
+                        <input type="password" id="oldPassword"/></div>
+                        <div class="formRow"><label for="newPassword">New Password</label>
+                        <input type="password" id="newPassword"/></div>
+                        <input type="submit" id="submitPassword" value="Change it!"/>
+                        <label id="changeMsg"></label>
+                    </form>
+                </div>
+            </div>
+        </script>
+	
         <title>Twidder - Socialize with other people around the world!</title>
 	</head>
-	<body>
-
-<div id="view">
 	
-</div>
+    <body>
+
+    <div id="view">
+    </div>
 
 	</body>
+
 </html>
