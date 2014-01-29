@@ -14,11 +14,12 @@
 
 var displayView = function() {
 
-	if (window.localStorage.loggedinusers) {
+	if (window.localStorage.loggedinusers == "" || window.localStorage.loggedinusers == "{}") {
+		document.getElementById("view").innerHTML = document.getElementById("welcomeView").innerHTML;
+    	
+    }else{
     	document.getElementById("view").innerHTML = document.getElementById("profileView").innerHTML;
     	changeView(document.getElementById("home"));
-    }else{
-    	document.getElementById("view").innerHTML = document.getElementById("welcomeView").innerHTML;
 
     	var a = document.getElementsByTagName("input")
 
@@ -44,7 +45,29 @@ window.onload = function() {
     
 
 };
+var showPasswordChanger = function(){
+	document.getElementById("passwordChanger").classList.remove("hide");
+	document.getElementById("passwordChanger").classList.add("show");
+}
+var changePassword = function(){
+		var oldPass = document.getElementById("oldPassword");
+		var newPass = document.getElementById("newPassword");
+		var changeMsg = document.getElementById("changeMsg");
 
+		if(oldPass.value != "" && newPass.value != ""){
+
+			
+			changeMsg.innerHTML = serverstub.changePassword(window.localStorage.token, oldPass.value, newPass.value).message;
+		}
+		else{
+			oldPass.classList.add("error");
+			newPass.classList.add("error");
+		}
+}
+var signOut = function(){
+	serverstub.signOut(window.localStorage.token);
+	displayView();
+}
 
 var validateLogin = function(){
 
@@ -61,13 +84,16 @@ var validateLogin = function(){
         }
     };
     if(noError == true){
-    	document.getElementById("loginMsg").innerHTML = serverstub.signIn(email, password).message;
-    	if(!serverstub.signIn(email, password).success){
+    	var response = serverstub.signIn(email, password);
+    	document.getElementById("loginMsg").innerHTML = response.message;
+    	if(!response.success){
     		inputs["logemail"].classList.add("error");
     		inputs["logpassword"].classList.add("error");
     	}
-    	window.localStorage = serverstub.signIn(email, password).data;
-    	if(window.localStorage.loggedinusers){
+    	
+    	// window.localStorage.token = serverstub.signIn(email, password).data;
+    	if(response.success){
+    		localStorage.token = response.data;
     		displayView();
     	}
     }
