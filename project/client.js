@@ -14,7 +14,7 @@
 
 var displayView = function() {
 
-	if (window.localStorage.loggedinusers == "" || window.localStorage.loggedinusers == "{}") {
+	if (!window.localStorage.token) {
 		document.getElementById("view").innerHTML = document.getElementById("welcomeView").innerHTML;
     	
     }else{
@@ -65,7 +65,11 @@ var changePassword = function(){
 		}
 }
 var signOut = function(){
-	serverstub.signOut(window.localStorage.token);
+	if(serverstub.signOut(window.localStorage.token).success){
+		if(window.localStorage.token){
+		window.localStorage.removeItem("token");
+	}
+	}
 	displayView();
 }
 
