@@ -63,7 +63,6 @@
                 ******************************-->
                 <div class="content" id="homeContent">
                     <div class="bar">
-                        <label>You are signed in</label>
                     </div>
                     <div id="personalInfo">
                         <label id="fname">Firstname: </label>
@@ -76,9 +75,12 @@
                     <div id="messageBox">
                         <textarea id="postMsg"></textarea>
                         <button id="postButton" onclick="postMsg()">Post</button>
+                        <button id="buttonWallRefresh" onclick="loadWall()">Refresh Wall</button>
                     </div>
                     <div id="wall">
-                        //add post here
+                        <div id="wallContent">
+                            //add post here
+                        </div>   
                     </div>
                 </div>
                 <!--****************************

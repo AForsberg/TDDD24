@@ -1,146 +1,153 @@
-body{
-	background-color: #00A480;	
+body {
+    background-color: #00A480;
 }
-.bar label{
-	padding-right: 20px;
+.bar {
+    background-color: #FE6100;
+    border-bottom: 1px groove red;
 }
-.bar label:hover{
-	cursor: pointer;
-	color: white;
+.bar label {
+	font-size: 20px;
+	padding: 3px;	
+    padding-right: 30px;
+    color: white;
 }
-.formRow input{
-	float: right;
+.bar label:hover {
+    cursor: pointer;
+    color: black;
 }
-.formRow label{
-	float: left;
-	clear: left;
+.formRow input {
+    float: right;
 }
-.formRow select{
-	float: right;
+.formRow label {
+    float: left;
+    clear: left;
+}
+.formRow select {
+    float: right;
 }
 #messageBox {
-	overflow: hidden;
+    overflow: hidden;
 }
 #postMsg {
-	width: 550px;
-	height: 60px;
-	resize: none;
-	float: left;
-	margin: 10px;
-	border-radius: 10px;
-	padding:5px;
-	border:none;
+    width: 550px;
+    height: 60px;
+    resize: none;
+    float: left;
+    margin: 10px;
+    border-radius: 10px;
+    padding:5px;
+    border:none;
 }
-#postButton{
-	width: 110px;
-	height: 60px;
-	float: right;
-	margin: 15px;
-	margin-left: 0px;
-	margin-right: 10px;
+#postButton {
+    width: 110px;
+    height: 60px;
+    float: right;
+    margin: 15px;
+    margin-left: 0px;
+    margin-right: 10px;
 }
 #postButton:hover {
-	cursor: pointer;
+    cursor: pointer;
 }
-#wall {
-	width: 100%;
-	overflow: hidden;
-}
-.post {
-	margin: 10px;
-	padding: 2px;
-	background-color: white;
-}
-#center{
-	width: 600px;
-	height: 400px;
-	margin-top: 100px;
-	margin-left: auto;
-	margin-right: auto;
-}
-#logo{
-	width: 338px;
-	float: left;
-	border: 1px solid black;
+#buttonWallRefresh {
+	float: right;
 	margin-right: 10px;
 }
-#login{
-	width: 238px;
-	height: 100px;
-	float: right;
-	background-color: #FFFFFF;
-	border: 1px solid black;
-	margin-bottom: 10px;
-	padding: 5px;
+#wall {
+    width: 100%;
+    overflow: hidden;
 }
-#signup{
-	width: 238px;
-	height: 266px;
-	float: right;
-	background-color: #FFFFFF;
-	border: 1px solid black;
-	padding: 5px;
+.wallContent {
+    margin: 10px;
+    padding: 2px;
+    background-color: white;
 }
-#loginMsg{
+#center {
+    width: 600px;
+    height: 400px;
+    margin-top: 100px;
+    margin-left: auto;
+    margin-right: auto;
 }
-#signupMsg{
-	float: left;
+#logo {
+    width: 338px;
+    float: left;
+    border: 1px solid black;
+    margin-right: 10px;
 }
-#center h1{
-	font-size: 18px;
-	margin: 0px;
-	text-align: center;
+#login {
+    width: 238px;
+    height: 100px;
+    float: right;
+    background-color: #FFFFFF;
+    border: 1px solid black;
+    margin-bottom: 10px;
+    padding: 5px;
 }
-.error{
-	border-color: red;
+#signup {
+    width: 238px;
+    height: 266px;
+    float: right;
+    background-color: #FFFFFF;
+    border: 1px solid black;
+    padding: 5px;
 }
-.submitbtn{
-	float:right;
-	clear: right;
+#loginMsg {
 }
-#home{
+#signupMsg {
+    float: left;
 }
-#browse{
-	width:232px;	/**Don't ask.**/
+#center h1 {
+    font-size: 18px;
+    margin: 0px;
+    text-align: center;
 }
-#account{
+.error {
+    border-color: red;
 }
-#container{
-	width: 700px;
-	margin-left: auto;
-	margin-right: auto;
+.submitbtn {
+    float:right;
+    clear: right;
 }
-.menuButton:hover{
-	cursor:pointer;
-	opacity: 0.5;
+#home {
 }
-.menuButton{
-	background-color: #006B53;
-	color: white;
-	border:1px solid #006B53;
-	width: 231px;
-	height: 50px;
-	float: left;
-	text-align: center;
-	padding-top: 20px;
-	
+#browse {
+    width:232px;
+    /**Don't ask.**/
 }
-.bar{
-	background-color: #FE6100;
-	border-bottom: 1px groove red;
+#account {
 }
-.show{
-	background-color: #FE6100;
-	display: block;
+#container {
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
 }
-.hide{
-	display: none;
+.menuButton:hover {
+    cursor:pointer;
+    opacity: 0.5;
 }
-.selected{
-	border-color: #FE6100;
-
+.menuButton {
+    background-color: #006B53;
+    color: white;
+    border:1px solid #006B53;
+    width: 231px;
+    height: 50px;
+    float: left;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 30px;
 }
-.formRow{
-	width: 100%;
-	overflow: hidden;
+.show {
+    background-color: #FE6100;
+    display: block;
+}
+.hide {
+    display: none;
+}
+.selected {
+    border-color: #FE6100;
+}
+.formRow {
+    width: 100%;
+    overflow: hidden;
 }

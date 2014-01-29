@@ -33,7 +33,7 @@ var displayView = function() {
         }
     }
     loadPersonalInfo();
-    loadMessages();	
+    loadWall();	
 };
 
 window.onload = function() {
@@ -136,9 +136,11 @@ var validateSignUp = function(formData) {
 }
 
 var changeView = function(a) {
+	var mBtn = document.getElementsByClassName("menuButton");
     var bars = document.getElementsByClassName("content");
     for (var i = bars.length - 1; i >= 0; i--) {
         bars[i].classList.add("hide");
+        mBtn[i].classList.remove("selected");
     };
     var selected = document.getElementById(a.id + "Content");
     selected.classList.remove("hide");
@@ -161,9 +163,9 @@ var postMsg = function() {
     if (msg == "")
         return;
     serverstub.postMessage(window.localStorage.token, msg, null);
-    loadMessages();
+    loadWall();
 }
-var loadMessages = function() {
+var loadWall = function() {
     var msg = serverstub.getUserMessagesByToken(window.localStorage.token);
     console.log(msg);
     clearWall();
@@ -172,13 +174,13 @@ var loadMessages = function() {
     };
 }
 var clearWall = function() {
-    var wall = document.getElementById("wall");
+    var wall = document.getElementById("wallContent");
     wall.innerHTML = "";
 }
 var addToWall = function(msg) {
     console.log(msg);
-    var wall = document.getElementById("wall");
-    wall.innerHTML += "<div class=\"post\">" + msg + "</div>";
+    var wall = document.getElementById("wallContent");
+    wall.innerHTML += "<div class=\"wallContent\">" + msg + "</div>";
 }
 //          \__\
 //      o   (oo)
