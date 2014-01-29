@@ -1,6 +1,13 @@
 body{
 	background-color: #00A480;	
 }
+#choiceBar label{
+	padding-right: 20px;
+}
+#choiceBar label:hover{
+	cursor: pointer;
+	color: white;
+}
 .formRow input{
 	float: right;
 }
