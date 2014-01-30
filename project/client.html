@@ -127,11 +127,26 @@
                 *****************************-->
                 <div class="content" id="browseContent">
                     <div id="browseOptions">
-                    <form onsubmit="loadSearchWall(); return false">
-                        <input id="searchField" type="text" placeholder="email"/>
-                        <input class="button" type="submit" value="Search user"/>
-                    </form>    
-                    <label class="infoMsg" id="msgBrowse"></label>
+                        <form onsubmit="loadSearchWall(); return false">
+                            <input id="searchField" type="text" placeholder="email"/>
+                            <input class="button" type="submit" value="Search user"/>
+                        </form>    
+                        <label class="infoMsg" id="msgBrowse"></label>
+                    </div>
+                    <div id="browseProfile" class="hide">
+                        <label id="fnameBrowse"></label>
+                        <label id="lnameBrowse"></label>
+                        <br>
+                        <label id="emailBrowse"></label>
+                        <label id="genderBrowse"></label>
+                        <label id="cityBrowse"></label>
+                        <label id="countryBrowse"></label>
+                    </div>
+                    <hr>
+                     <div id="messageBoxBrowse" class="hide">
+                        <textarea id="postMsgBrowse"></textarea>
+                        <button id="postButtonBrowse" onclick="postBrowseMsg()">Post</button>
+                        <button id="buttonWallRefreshBrowse" onclick="loadMyWall()">Refresh Wall</button>
                     </div>
                     <hr>
                     <div id="browseWall">

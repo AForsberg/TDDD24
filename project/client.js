@@ -10,6 +10,8 @@
 // *  ||----||  
 //    ~~    ~~  
 
+var foundEmail = null;
+
 var displayView = function() {
     if (!window.localStorage.token) {
         document.getElementById("view").innerHTML = document.getElementById("welcomeView").innerHTML;
@@ -153,12 +155,25 @@ var loadPersonalInfo = function() {
     var info = serverstub.getUserDataByToken(window.localStorage.token);
     var inf = document.getElementById("personalInfo").getElementsByTagName("label");
     console.log(info.data.firstname)
-    inf["fname"].innerHTML += info.data.firstname;
-    inf["lname"].innerHTML += info.data.familyname;
-    inf["email"].innerHTML += info.data.email;
-    inf["gender"].innerHTML += info.data.gender;
-    inf["city"].innerHTML += info.data.city;
-    inf["country"].innerHTML += info.data.country;
+    inf["fname"].innerHTML = info.data.firstname;
+    inf["lname"].innerHTML = info.data.familyname;
+    inf["email"].innerHTML = info.data.email;
+    inf["gender"].innerHTML = info.data.gender;
+    inf["city"].innerHTML = info.data.city;
+    inf["country"].innerHTML = info.data.country;
+}
+
+var loadBrowseProfile = function(){
+    document.getElementById("browseProfile").classList.remove("hide");
+    var info = serverstub.getUserDataByEmail(window.localStorage.token, foundEmail);
+    console.log(info);
+    var inf = document.getElementById("browseProfile").getElementsByTagName("label");
+    inf["fnameBrowse"].innerHTML = info.data.firstname;
+    inf["lnameBrowse"].innerHTML = info.data.familyname;
+    inf["emailBrowse"].innerHTML = info.data.email;
+    inf["genderBrowse"].innerHTML = info.data.gender;
+    inf["cityBrowse"].innerHTML = info.data.city;
+    inf["countryBrowse"].innerHTML = info.data.country;
 }
 
 var postMsg = function() {
@@ -169,10 +184,19 @@ var postMsg = function() {
     loadMyWall();
 }
 
+var postBrowseMsg = function() {
+    var msg = document.getElementById("postMsgBrowse").value;
+    if (msg == "")
+        return;
+    serverstub.postMessage(window.localStorage.token, msg, foundEmail);
+    loadSearchWall();
+}
+
 //------
 var loadMyWall = function() {
     var msg = serverstub.getUserMessagesByToken(window.localStorage.token);
     var wall = document.getElementById("myWall");
+    //console.log(msg);
     loadWall(msg, wall);
     console.log("myWall loaded")
 }
@@ -184,11 +208,18 @@ var loadSearchWall = function() {
 
     if (msg.success) {
         document.getElementById("msgBrowse").innerHTML = "";
+        foundEmail = mail;
+        loadBrowseProfile();
+        document.getElementById("messageBoxBrowse").classList.remove("hide");
         loadWall(msg, wall);
     } else {
         document.getElementById("msgBrowse").innerHTML = msg.message;
+        document.getElementById("browseProfile").classList.add("hide");
+        document.getElementById("messageBoxBrowse").classList.add("hide");
         clearWall(wall);
     }
+
+    
 }
 
 var loadWall = function(msg, wall) {
@@ -202,7 +233,7 @@ var clearWall = function(wall) {
 
 var addToWall = function(msg, wall) {
     for (var i = 0; i <= msg.data.length - 1; i++) {
-        wall.innerHTML += "<div class=\"wallContent\">" + msg.data[i].content + "</div>";
+        wall.innerHTML += "<div class=\"wallContent\">"+"<label id=\"writer\">"+"From:"+msg.data[i].writer+"</label>" + msg.data[i].content + "</div>";
     };
 }
 
