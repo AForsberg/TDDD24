@@ -31,7 +31,7 @@ var displayView = function() {
 
     }
     loadPersonalInfo();
-    loadWall();
+    loadMyWall();
 };
 
 window.onload = function() {
@@ -166,32 +166,46 @@ var postMsg = function() {
     if (msg == "")
         return;
     serverstub.postMessage(window.localStorage.token, msg, null);
-    loadWall();
+    loadMyWall();
 }
 
-var loadWall = function() {
+//------
+var loadMyWall = function() {
     var msg = serverstub.getUserMessagesByToken(window.localStorage.token);
-    console.log(msg);
-    clearWall();
-    
-    for (var i = 0; i <= msg.data.length - 1; i++) {
-        addToWall(msg.data[i].content);
-    };
-    
+    var wall = document.getElementById("myWall");
+    loadWall(msg, wall);
+    console.log("myWall loaded")
 }
-var findWall = function() {
-    var msg = serverstub.getUserMessagesByEmail(document.getElementById("findText"));
 
+var loadSearchWall = function() {
+    var mail = document.getElementById("searchField").value;
+    var msg = serverstub.getUserMessagesByEmail(window.localStorage.token, mail);
+    var wall = document.getElementById("browseWall");
+
+    if (msg.success) {
+        document.getElementById("msgBrowse").innerHTML = "";
+        loadWall(msg, wall);
+    } else {
+        document.getElementById("msgBrowse").innerHTML = msg.message;
+        clearWall(wall);
+    }
 }
-var clearWall = function() {
-    var wall = document.getElementById("wallContent");
+
+var loadWall = function(msg, wall) {
+    clearWall(wall);
+    addToWall(msg, wall);
+}
+
+var clearWall = function(wall) {
     wall.innerHTML = "";
 }
-var addToWall = function(msg) {
-    console.log(msg);
-    var wall = document.getElementById("wallContent");
-    wall.innerHTML += "<div class=\"wallContent\">" + msg + "</div>";
+
+var addToWall = function(msg, wall) {
+    for (var i = 0; i <= msg.data.length - 1; i++) {
+        wall.innerHTML += "<div class=\"wallContent\">" + msg.data[i].content + "</div>";
+    };
 }
+
 //          \__\
 //      o   (oo)
 //   ____\___\/ 

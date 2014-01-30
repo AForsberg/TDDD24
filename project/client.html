@@ -113,12 +113,12 @@
                     <div id="messageBox">
                         <textarea id="postMsg"></textarea>
                         <button id="postButton" onclick="postMsg()">Post</button>
-                        <button id="buttonWallRefresh" onclick="loadWall()">Refresh Wall</button>
+                        <button id="buttonWallRefresh" onclick="loadMyWall()">Refresh Wall</button>
                     </div>
                     <hr>
-                    <div id="wall" style="text-align: center">
+                    <div id="myWall" style="text-align: center">
                         <div id="wallContent">
-                            //add post here
+                            <!-- add post here -->
                         </div>   
                     </div>
                 </div>
@@ -126,10 +126,17 @@
                 **          BROWSE            **
                 *****************************-->
                 <div class="content" id="browseContent">
-                    <div class="bar">
-                        <label>Search user</label>
+                    <div id="browseOptions">
+                    <form onsubmit="loadSearchWall(); return false">
+                        <input id="searchField" type="text" placeholder="email"/>
+                        <input class="button" type="submit" value="Search user"/>
+                    </form>    
+                    <label class="infoMsg" id="msgBrowse"></label>
                     </div>
                     <hr>
+                    <div id="browseWall">
+                        <!-- add post here -->
+                    </div>
                 </div>
                 <!--****************************
                 **          ACCOUNT           **

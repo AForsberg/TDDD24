@@ -75,7 +75,7 @@ hr {
     float: right;
     margin-right: 10px;
 }
-#wall {
+.wall {
     width: 100%;
     overflow: hidden;
 }
@@ -207,4 +207,10 @@ hr {
 }
 .infoMsg {
     color: #006B53;
+}
+#browseOptions {
+    padding-top: 80px;
+    padding-bottom: 10px;
+    text-align: center;
+    background-color: #FE6100;
 }
