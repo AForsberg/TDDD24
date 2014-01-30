@@ -36,16 +36,16 @@ var displayView = function() {
     loadMyWall();
 };
 
+//Runs when page is loaded.
 window.onload = function() {
-    //Runs when page is loaded
     displayView();
 };
 
 var showPasswordChanger = function() {
     document.getElementById("passwordChanger").classList.remove("hide");
-    document.getElementById("passwordChanger").classList.add("show");
 }
 
+//ok
 var changePassword = function() {
     var oldPass = document.getElementById("oldPassword");
     var newPass = document.getElementById("newPassword");
@@ -59,6 +59,7 @@ var changePassword = function() {
     }
 }
 
+//ok
 var signOut = function() {
     if (serverstub.signOut(window.localStorage.token).success) {
         if (window.localStorage.token) {
@@ -68,6 +69,7 @@ var signOut = function() {
     displayView();
 }
 
+//ok
 var validateLogin = function() {
     var email = document.getElementById("logemail").value;
     var password = document.getElementById("logpassword").value;
@@ -89,7 +91,6 @@ var validateLogin = function() {
             inputs["logpassword"].classList.add("error");
         }
 
-        // window.localStorage.token = serverstub.signIn(email, password).data;
         if (response.success) {
             localStorage.token = response.data;
             displayView();
@@ -99,6 +100,7 @@ var validateLogin = function() {
     return noError;
 }
 
+//ok
 var validateSignUp = function(formData) {
     var formInputs = new Object();
 
@@ -136,6 +138,7 @@ var validateSignUp = function(formData) {
     return noError;
 }
 
+//ok
 var changeView = function(a) {
     var mBtn = document.getElementsByClassName("menuButton");
     var bars = document.getElementsByClassName("content");
@@ -147,7 +150,6 @@ var changeView = function(a) {
 
     var selected = document.getElementById(a.id + "Content");
     selected.classList.remove("hide");
-    selected.classList.add("show");
     a.classList.add("selected");
 }
 
@@ -218,8 +220,6 @@ var loadSearchWall = function() {
         document.getElementById("messageBoxBrowse").classList.add("hide");
         clearWall(wall);
     }
-
-    
 }
 
 var loadWall = function(msg, wall) {
