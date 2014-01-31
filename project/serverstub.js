@@ -6,7 +6,7 @@ var serverstub = new Object();
 var users = null;
 var loggedInUsers = null;
 
-file:///Users/sebastiankarlsson/Lagring/Program/gitHub/TDDD24/project/client.htmlif (localStorage.getItem("users") == null) {
+if (localStorage.getItem("users") == null) {
     users = {};
 }else users = JSON.parse(localStorage.getItem("users"));
 
