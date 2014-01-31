@@ -15,11 +15,7 @@ var foundEmail = null;
 var displayView = function() {
     if (!window.localStorage.token) {
         document.getElementById("view").innerHTML = document.getElementById("welcomeView").innerHTML;
-    } else {
-        document.getElementById("view").innerHTML = document.getElementById("profileView").innerHTML;
-        changeView(document.getElementById("home"));
         var a = document.getElementsByTagName("input")
-
         for (var i = 0; i < a.length; i++) {
             a[i].addEventListener("keypress", function(e) {
                 e.target.classList.remove("error");
@@ -30,10 +26,12 @@ var displayView = function() {
                 }
             });
         }
-
+    } else {
+        document.getElementById("view").innerHTML = document.getElementById("profileView").innerHTML;
+        changeView(document.getElementById("home"));
+        loadPersonalInfo();
+        loadMyWall();
     }
-    loadPersonalInfo();
-    loadMyWall();
 };
 
 //Runs when page is loaded.
@@ -165,7 +163,7 @@ var loadPersonalInfo = function() {
     inf["country"].innerHTML = info.data.country;
 }
 
-var loadBrowseProfile = function(){
+var loadBrowseProfile = function() {
     document.getElementById("browseProfile").classList.remove("hide");
     var info = serverstub.getUserDataByEmail(window.localStorage.token, foundEmail);
     console.log(info);
@@ -233,7 +231,7 @@ var clearWall = function(wall) {
 
 var addToWall = function(msg, wall) {
     for (var i = 0; i <= msg.data.length - 1; i++) {
-        wall.innerHTML += "<div class=\"wallContent\">"+"<label id=\"writer\">"+"From:"+msg.data[i].writer+"</label>" + msg.data[i].content + "</div>";
+        wall.innerHTML += "<div class=\"wallContent\">" + "<label id=\"writer\">" + "From:" + msg.data[i].writer + "</label>" + msg.data[i].content + "</div>";
     };
 }
 
