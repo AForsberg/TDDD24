@@ -1,0 +1,18 @@
+1 
+Q: Why do we validate data before sending it to the server at client-side, as opposed to just letting the server validate data before using it? What we get and what we lose by it?
+
+A: This is simply a matter of performance or in other words making sure that we do not send unneccesary data to the server. If for example not all fields in our signup form are filled in, we know that the servers signup function will fail. If we validate this data before sending we can catch incomplete fields or fields that are filled in wrong, for example comparing password fields or making sure an email adress is valid. This way we don't need to send this data to the server, where we know it will be rejected, getting rid of a lot of unneccesary server requests. Client side validation is easy to bypass making it unsuitable for pages that requires some form of security. For example, if we have some sort of security check done with JavaScript, it is easily bypassed by just disabling JavaScript in the browser.
+
+(words: 147)
+
+4: 
+Q: What happens when we use the back/forward buttons while working with Twidder ? Is this the expected behaviour? Why are we getting this behaviour? What would be the solution?
+
+A: Nothing happens when we try to navigate backwards or forwards, since the forward and backward buttons are not even clickable. This is because we designed the page as a single page application, which means that we never change the page url when changing views. The browser saves changes in the url as the users browser history and uses this history when back or forward button is pressed. To solve this issue we could use the HTML5 history API to manipulate the browser history by calling metods like history.pushState() to manually add something to the history. If we o this everytime the user presses a tab or changes view, the user will be able to navigate the page using back and forward buttons.
+
+(words: 121)
+
+9:
+Q: Why isn’t it a good idea to use tables for layout purposes? What would be the replacement?
+
+A: Tables are used for displaying data and should not be used for layout purposes. First of all when doing web desisgn you should try to separate the code for structure and design, meaning that you should not be doing any layout in the HTML-code, it should be done with CSS instead. Using tables makes it very difficult and time consuming to change layout of your page, since this means that you have to restructure the whole thing compared to just changing the CSS. Instead of using table tags for your web page it is much better to use div tags which are much more flexible and allows you to separate structure and design completely.
