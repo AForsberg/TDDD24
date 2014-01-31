@@ -93,8 +93,7 @@ var validateLogin = function() {
             localStorage.token = response.data;
             displayView();
         }
-    } else
-        console.log("Failed!");
+    }
     return noError;
 }
 
@@ -131,8 +130,7 @@ var validateSignUp = function(formData) {
     }
     if (noError == true) {
         document.getElementById("signupMsg").innerHTML = serverstub.signUp(formInputs).message;
-    } else
-        console.log("Failed!");
+    }
     return noError;
 }
 
@@ -154,7 +152,6 @@ var changeView = function(a) {
 var loadPersonalInfo = function() {
     var info = serverstub.getUserDataByToken(window.localStorage.token);
     var inf = document.getElementById("personalInfo").getElementsByTagName("label");
-    console.log(info.data.firstname)
     inf["fname"].innerHTML = info.data.firstname;
     inf["lname"].innerHTML = info.data.familyname;
     inf["email"].innerHTML = info.data.email;
@@ -166,7 +163,6 @@ var loadPersonalInfo = function() {
 var loadBrowseProfile = function() {
     document.getElementById("browseProfile").classList.remove("hide");
     var info = serverstub.getUserDataByEmail(window.localStorage.token, foundEmail);
-    console.log(info);
     var inf = document.getElementById("browseProfile").getElementsByTagName("label");
     inf["fnameBrowse"].innerHTML = info.data.firstname;
     inf["lnameBrowse"].innerHTML = info.data.familyname;
@@ -196,9 +192,7 @@ var postBrowseMsg = function() {
 var loadMyWall = function() {
     var msg = serverstub.getUserMessagesByToken(window.localStorage.token);
     var wall = document.getElementById("myWall");
-    //console.log(msg);
     loadWall(msg, wall);
-    console.log("myWall loaded")
 }
 
 var loadSearchWall = function() {
