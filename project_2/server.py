@@ -1,5 +1,6 @@
 #Servercode by Antfo325&Sebka720
 import sqlite3
+import database_helper
 from flask import Flask
 app = Flask(__name__)
 
@@ -10,10 +11,19 @@ def home():
 @app.route('/signin')
 def signIn(email, password):
 	#Authenticates user, returns string containing random generated token
-	pass
+
+	if success:
+		return 
+
+
 @app.route('/signup')
 def signUp(email, password, firstname, familyname, gender, city, country):
 	#Registers user in database
+	if database_helper.getUser(email) == "":
+		database_helper.addUser(email, firstname, familyname, gender, city, country)
+		return 'success'
+	else:
+		return 'user already exists'
 	return 'you just signed up'
 	
 @app.route('/signout')

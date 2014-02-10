@@ -1,12 +1,12 @@
 import sqlite3
 
-
-
-def addUser():
+def addUser(email, firstname, familyname, gender, city, country):
 	conn = sqlite3.connect('database.db')
 	curs = conn.cursor()
-	curs.execute('')
+	command = 'INSERT INTO USER VALUES(email, firstname, familyname, gender, city, country);'
+	curs.execute(command)
 	conn.commit()
+	conn.close()
 
 def getUser(email):
 	conn = sqlite3.connect('database.db')
