@@ -1,35 +1,53 @@
 #Servercode by Antfo325&Sebka720
 import sqlite3
 import database_helper
-from flask import Flask
+import string
+import random
+from flask import Flask, request
 app = Flask(__name__)
 
 @app.route('/')
 def home():
+	database_helper.get_db()
 	return 'This is a front page, looking beautiful'
 
 @app.route('/signin')
-def signIn(email, password):
+def signIn():
 	#Authenticates user, returns string containing random generated token
-
-	if success:
-		return 
+	email = request.args.get('email')
+	password = request.args.get('password')
+	return email + password
+	user = database_helper.getUser(email)
+	if user == null:
+		return 'no such user'
+	elif user.password != password:
+		return 'wrong password'
+	else:
+		token =''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+		return {'success' : true, 'message' : 'you logged in', 'data':token}
 
 
 @app.route('/signup')
-def signUp(email, password, firstname, familyname, gender, city, country):
+def signUp():
 	#Registers user in database
-	if database_helper.getUser(email) == "":
-		database_helper.addUser(email, firstname, familyname, gender, city, country)
-		return 'success'
+	email = request.args.get('email')
+	password = request.args.get('password')
+	firstname = request.args.get('firstname')
+	familyname = request.args.get('familyname')
+	gender = request.args.get('gender')
+	city = request.args.get('city')
+	country = request.args.get('country')
+	"""return email+password+firstname+familyname+gender+city+country"""
+	return database_helper.existsUser(email)
+	"""return 'user already exists'
 	else:
-		return 'user already exists'
-	return 'you just signed up'
-	
+		database_helper.addUser(email, password, firstname, familyname, gender, city, country)
+		return 'you just signed up'"""
+		
 @app.route('/signout')
-def signOut(token):
-	#Signs a user out
-	pass
+def signOut():
+	token=request.args.get('token')
+	return token
 
 @app.route('/changepassword')
 def changePassword(token, oldPass, newPass):
