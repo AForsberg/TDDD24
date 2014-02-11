@@ -3,6 +3,7 @@ import sqlite3
 import database_helper
 import string
 import random
+import json
 from flask import Flask, request
 app = Flask(__name__)
 
@@ -16,18 +17,21 @@ def signIn():
 	#Authenticates user, returns string containing random generated token
 	email = request.args.get('email')
 	password = request.args.get('password')
-	return email + password
 	user = database_helper.getUser(email)
-	if user == null:
+	if user == None:
 		return 'no such user'
-	elif user.password != password:
+	elif user[1] != password:
 		return 'wrong password'
 	else:
 		token =''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
-		return {'success' : true, 'message' : 'you logged in', 'data':token}
+		return json.dumps({'success' : True, 'message' : 'you logged in', 'data':token})
+
 @app.route('/users')
 def showUsers():
-	pass
+	users = database_helper.getUsers()
+	for row in users:
+		print row
+	return 'done'
 
 @app.route('/signup')
 def signUp():
@@ -41,8 +45,8 @@ def signUp():
 	country = request.args.get('country')
 	answer = database_helper.existsUser(email)
 	#return answer
-	if answer == True:
-		"""database_helper.addUser(email, password, firstname, familyname, gender, city, country)"""
+	if answer:
+		database_helper.addUser(email, password, firstname, familyname, gender, city, country)
 		return 'you just signed up'
 	else:
 		return 'user already exists'
