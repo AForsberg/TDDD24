@@ -11,7 +11,9 @@ def get_db():
 	return db
 	
 def connect_db():
-	return sqlite3.connect(DATABASE)
+	conn = sqlite3.connect(DATABASE)
+	conn.text_factory = str
+	return conn
 
 
 def addUser(email, firstname, familyname, gender, city, country):
@@ -27,12 +29,12 @@ def getUser(email):
 
 def existsUser(email):
 	cur = get_db().cursor()
-	command = 'SELECT * FROM USER'
-	result = cur.execute(command)
+	cur.execute('SELECT * FROM user WHERE user.EMAIL = ?', [email])
+	result = cur.fetchone()
 	if result != None:
-		return result
+		return True
 	else:
-		return 'false'
+		return False
 
 def addMessage(email, ):
 	pass

@@ -25,7 +25,9 @@ def signIn():
 	else:
 		token =''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
 		return {'success' : true, 'message' : 'you logged in', 'data':token}
-
+@app.route('/users')
+def showUsers():
+	pass
 
 @app.route('/signup')
 def signUp():
@@ -37,12 +39,13 @@ def signUp():
 	gender = request.args.get('gender')
 	city = request.args.get('city')
 	country = request.args.get('country')
-	"""return email+password+firstname+familyname+gender+city+country"""
-	return database_helper.existsUser(email)
-	"""return 'user already exists'
+	answer = database_helper.existsUser(email)
+	#return answer
+	if answer == True:
+		"""database_helper.addUser(email, password, firstname, familyname, gender, city, country)"""
+		return 'you just signed up'
 	else:
-		database_helper.addUser(email, password, firstname, familyname, gender, city, country)
-		return 'you just signed up'"""
+		return 'user already exists'
 		
 @app.route('/signout')
 def signOut():
@@ -80,4 +83,4 @@ def postMessage(token, message, email):
 	pass
 
 if __name__=='__main__':
-	app.run()
+	app.run(debug=True)
