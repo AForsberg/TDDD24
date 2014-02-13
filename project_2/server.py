@@ -7,6 +7,8 @@ import json
 from flask import Flask, request
 app = Flask(__name__)
 
+loggedInUsers = {}
+
 @app.route('/')
 def home():
 	database_helper.get_db()
@@ -24,6 +26,7 @@ def signIn():
 		return 'wrong password'
 	else:
 		token =''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
+		loggedInUsers[token] = email
 		return json.dumps({'success' : True, 'message' : 'you logged in', 'data':token})
 
 @app.route('/users')
@@ -54,7 +57,13 @@ def signUp():
 @app.route('/signout')
 def signOut():
 	token=request.args.get('token')
-	return token
+	try:
+		if loggedInUsers[token] != None:
+			del loggedInUsers[token]
+			return json.dumps({'success' : True, 'message' : 'you signed out'})
+	except Exception, e:
+		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
+		
 
 @app.route('/changepassword')
 def changePassword(token, oldPass, newPass):
