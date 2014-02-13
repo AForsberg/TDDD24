@@ -40,15 +40,17 @@ def existsUser(email):
 	print result
 	return (result == None)
 
-def addMessage(email, ):
-	pass
+def addMessage(toEmail, fromEmail, message):
+	cur = get_db().cursor()
+	query = 'INSERT INTO MESSAGE(toemail, fromemail, message) VALUES(?, ?, ?);'
+	cur.execute(query, [toEmail, fromEmail, message])
+	get_db().commit()
 
 def changePassword(email, newPass):
 	cur = get_db().cursor()
 	query = 'UPDATE USER SET password = ? WHERE USER.EMAIL = ?;'
 	cur.execute(query, [newPass, email])
 	get_db().commit()
-	return True
 
 def getMessages():
 	pass

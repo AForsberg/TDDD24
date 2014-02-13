@@ -103,9 +103,26 @@ def getUserMessagesByEmail(token, email):
 	pass
 
 @app.route('/postmessage')
-def postMessage(token, message, email):
+def postMessage():
 	#Post a message
-	pass
+	token = request.args.get('token')
+	message = request.args.get('message')
+	email = request.args.get('email')
+	try:
+		fromEmail = loggedInUsers[token]
+	except Exception, e:
+		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
+	if email == None:
+		toEmail = fromEmail
+	else:
+		toEmail = email
+	if database_helper.existsUser(toEmail):
+		database_helper.addMessage(toEmail, fromEmail, message)
+		return json.dumps({'success' : True, 'message' : 'message posted'})
+	else:
+		return json.dumps({'success' : False, 'message' : 'no such user'})
+
+
 
 if __name__=='__main__':
 	app.run(debug=True)
