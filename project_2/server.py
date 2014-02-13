@@ -31,6 +31,7 @@ def signIn():
 
 @app.route('/users')
 def showUsers():
+	#Logfunction, shows all users 
 	users = database_helper.getUsers()
 	for row in users:
 		print row
@@ -56,6 +57,7 @@ def signUp():
 		
 @app.route('/signout')
 def signOut():
+	#Signs you out!
 	token=request.args.get('token')
 	try:
 		if loggedInUsers[token] != None:
@@ -67,6 +69,7 @@ def signOut():
 
 @app.route('/changepassword')
 def changePassword():
+	#Changes a users password
 	token = request.args.get('token')
 	oldPass = request.args.get('oldpassword')
 	newPass = request.args.get('newpassword')
@@ -84,6 +87,7 @@ def changePassword():
 
 #@app.route('/getuserdata')
 def getUserDataByToken(token):
+	#Retrieves userdata from token
 	email = loggedInUsers[token]
 	info = database_helper.getUser(email)
 
