@@ -43,8 +43,12 @@ def existsUser(email):
 def addMessage(email, ):
 	pass
 
-def changePassword(token, newPass):
-	pass
+def changePassword(email, newPass):
+	cur = get_db().cursor()
+	query = 'UPDATE USER SET password = ? WHERE USER.EMAIL = ?;'
+	cur.execute(query, [newPass, email])
+	get_db().commit()
+	return True
 
 def getMessages():
 	pass

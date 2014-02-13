@@ -66,14 +66,26 @@ def signOut():
 		
 
 @app.route('/changepassword')
-def changePassword(token, oldPass, newPass):
-	#Changes a users password in the database
-	pass
+def changePassword():
+	token = request.args.get('token')
+	oldPass = request.args.get('oldpassword')
+	newPass = request.args.get('newpassword')
+	try:
+		email = loggedInUsers[token]
+	except Exception, e:
+		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
+	info = database_helper.getUser(email)
+	if oldPass != info[1]:
+		return json.dumps({'success' : False, 'message' : 'wrong password'})
+	else:
+		database_helper.changePassword(email, newPass)
+		return json.dumps({'success' : True, 'message' : 'password changed'})
+		
 
-@app.route('/getuserdata')
+#@app.route('/getuserdata')
 def getUserDataByToken(token):
-	#Returns a user object containing all info
-	pass
+	email = loggedInUsers[token]
+	info = database_helper.getUser(email)
 
 @app.route('/getuserdataemail')
 def getUserDataByEmail(token, email):
