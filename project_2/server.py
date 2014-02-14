@@ -47,6 +47,8 @@ def signUp():
 	gender = request.args.get('gender')
 	city = request.args.get('city')
 	country = request.args.get('country')
+	if email == None:
+		return 'you need to fill in your info'
 	answer = database_helper.existsUser(email)
 	#return answer
 	if answer:
@@ -92,9 +94,19 @@ def getUserDataByToken(token):
 	info = database_helper.getUser(email)
 
 @app.route('/getuserdataemail')
-def getUserDataByEmail(token, email):
+def getUserDataByEmail():
 	#Returns a user object
-	pass
+	token = request.args.get('token')
+	email = request.args.get('email')
+	try:
+		loggedInUser = loggedInUsers[token]
+	except Exception, e:
+		return 'you are not signed in'
+	if database_helper.existsUser(email):
+		user = database_helper.getUser(email)
+		return json.dumps({'user:' : user})
+	else:
+		return 'no such user'
 
 @app.route('/getmessagetoken')
 def getUserMessagesByToken(token):

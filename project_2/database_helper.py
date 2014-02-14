@@ -38,7 +38,7 @@ def existsUser(email):
 	cur.execute('SELECT * FROM user WHERE user.EMAIL = ?', [email])
 	result = cur.fetchone()
 	print result
-	return (result == None)
+	return (result != None)
 
 def addMessage(toEmail, fromEmail, message):
 	cur = get_db().cursor()
