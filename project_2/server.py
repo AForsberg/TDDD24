@@ -49,9 +49,9 @@ def signUp():
 	country = request.args.get('country')
 	if email == None:
 		return 'you need to fill in your info'
-	answer = database_helper.existsUser(email)
+	exists = database_helper.existsUser(email)
 	#return answer
-	if answer:
+	if !exists:
 		database_helper.addUser(email, password, firstname, familyname, gender, city, country)
 		return 'you just signed up'
 	else:
