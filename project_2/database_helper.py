@@ -52,5 +52,9 @@ def changePassword(email, newPass):
 	cur.execute(query, [newPass, email])
 	get_db().commit()
 
-def getMessages():
-	pass
+def getMessages(email):
+	cur = get_db.cursor()
+	query = 'SELECT * FROM MESSAGE WHERE MESSAGE.toemail=?;'
+	cur.execute(query, [email])
+	messages = cur.fetchall()
+	return messages

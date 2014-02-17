@@ -87,11 +87,16 @@ def changePassword():
 		return json.dumps({'success' : True, 'message' : 'password changed'})
 		
 
-#@app.route('/getuserdata')
-def getUserDataByToken(token):
+@app.route('/getuserdata')
+def getUserDataByToken():
 	#Retrieves userdata from token
-	email = loggedInUsers[token]
+	token = request.args.get('token')
+	try:
+		email = loggedInUsers[token]
+	except Exception, e:
+		return 'you are not signed in'
 	info = database_helper.getUser(email)
+	return json.dumps({'user: ' : info})
 
 @app.route('/getuserdataemail')
 def getUserDataByEmail():
@@ -109,14 +114,30 @@ def getUserDataByEmail():
 		return 'no such user'
 
 @app.route('/getmessagetoken')
-def getUserMessagesByToken(token):
+def getUserMessagesByToken():
 	#Returns an array containing all messages sent to user
-	pass
+	token = request.args.get('token')
+	try:
+		email = loggedInUsers[token]
+	except Exception, e:
+		return 'you are not signed in'
+	messages = database_helper.getMessages(email)
+	return json.dumps({'messages' : messages})
 
 @app.route('/getmessageemail')
-def getUserMessagesByEmail(token, email):
+def getUserMessagesByEmail():
 	#Same as above for the email-user
-	pass
+	token = request.args.get('token')
+	email = request.args.get('email')
+	try:
+		loggedInUser = loggedInUsers[token]
+	except Exception, e:
+		return 'you are not signed in'
+	if database_helper.existsUser(email):
+		messages = database_helper.getMessages(email)
+		return json.dumps({'messages:' : messages})
+	else:
+		return 'no such user'
 
 @app.route('/postmessage')
 def postMessage():
