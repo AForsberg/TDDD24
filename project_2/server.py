@@ -51,7 +51,7 @@ def signUp():
 		return 'you need to fill in your info'
 	exists = database_helper.existsUser(email)
 	#return answer
-	if !exists:
+	if exists == False:
 		database_helper.addUser(email, password, firstname, familyname, gender, city, country)
 		return 'you just signed up'
 	else:
