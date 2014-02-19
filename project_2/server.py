@@ -4,6 +4,9 @@ import database_helper
 import string
 import random
 import json
+import base64
+import uuid
+import hashlib
 from flask import Flask, request
 app = Flask(__name__)
 
@@ -22,12 +25,13 @@ def signIn():
 	user = database_helper.getUser(email)
 	if user == None:
 		return 'no such user'
-	elif user[1] != password:
-		return 'wrong password'
-	else:
+	elif verifyPass(password, user[1]):
 		token =''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
 		loggedInUsers[token] = email
 		return json.dumps({'success' : True, 'message' : 'you logged in', 'data':token})
+	else:
+		return 'wrong password'
+		
 
 @app.route('/users')
 def showUsers():
@@ -52,7 +56,8 @@ def signUp():
 	exists = database_helper.existsUser(email)
 	#return answer
 	if exists == False:
-		database_helper.addUser(email, password, firstname, familyname, gender, city, country)
+		hashPass = hashPassword(password)
+		database_helper.addUser(email, hashpass, firstname, familyname, gender, city, country)
 		return 'you just signed up'
 	else:
 		return 'user already exists'
@@ -80,11 +85,12 @@ def changePassword():
 	except Exception, e:
 		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
 	info = database_helper.getUser(email)
-	if oldPass != info[1]:
-		return json.dumps({'success' : False, 'message' : 'wrong password'})
-	else:
-		database_helper.changePassword(email, newPass)
+	if verifyPass(oldPass, info[1]):
+		hashPass = hashPassword(newPass)
+		database_helper.changePassword(email, hashPass)
 		return json.dumps({'success' : True, 'message' : 'password changed'})
+	else:
+		return json.dumps({'success' : False, 'message' : 'wrong password'})
 		
 
 @app.route('/getuserdata')
@@ -159,6 +165,14 @@ def postMessage():
 	else:
 		return json.dumps({'success' : False, 'message' : 'no such user'})
 
+def hashPassword(password):
+
+	hashedPass = hashlib.sha512(password).hexdigest()
+	return hashedPass
+
+def verifyPass(password, hashedPass):
+	reHashed = hashPassword(password)
+	return reHashed == hashedPass
 
 
 if __name__=='__main__':
