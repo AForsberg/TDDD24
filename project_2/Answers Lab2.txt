@@ -1,0 +1,4 @@
+Answers Lab2
+
+1.
+If you store passwords in plain text, this will pose a big security risk if someone somehow gains access to your database. This means that this person will have access to your password, in plain text, and will have no problem using it to log in and steal your account. To fix this issue, passwords should be encrypted and stored as a hash of the original password. When you sign in, the server will use the same encryption method to check that it matches the hash in the database, and unless you use a very common password, this will make it hard for someone to guess. To further improve security, you should use salt, which means adding random data to change the hash, making it harder for someone with bad intentions to crack.
