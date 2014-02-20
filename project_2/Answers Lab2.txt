@@ -8,11 +8,13 @@ A normal text-base request or response, using the HTTP protocol, is not consider
 
 Transport Layer Security (TLS) and Secure Socket Layer (SSL) are cryptographic protocols which are designed to provide communication security over the internet. They use a certificate called X.509 which hence asymmetric cryptography to assure the counter parties with whom they are communicating. Also a symmetric key is exchanged and used to encrypt data transferred between both parties.
 
-HTTPS protects the user against eavesdropping, tempering and changing of the content of requests or responses being sent.
+HTTPS protects the user against eavesdropping, tampering and changing of the content of requests or responses being sent.
 
 4.
+A DBMS is a software which allows communication between user and database and gives the user the ability to manage and administrate the database.
+
 SQLite is, compared to many other database management systems, a lightweight, serverless, fast to setup and easy to use DBMS. SQLite is a DBMS that is very well suited for testing and embedding in applications.
 
-Being serverless means SQLite does not use, as many other DBMSs does, any interprocess communication like TCP/IP. Instead SQLite read or write directly from the database file on the disk. This is one of the main causes why SQLite is easy to setup; there are no separate server to install and care about. This also means that anyone who has a access to the file on the disk is able to use the database.
+Being serverless means SQLite does not use, as many other DBMSs does, any interprocess communication like TCP/IP. Instead SQLite read or write directly from the database file on the disk. This is one of the main causes why SQLite is easy to setup; there are no separate server to install and care about. Another factor that makes SQLite easy to use is the fact that it uses a single file to store the database on. These facts mean that anyone who has a access to the file on the disk is able to use the database.
 
 This has made SQLite very popular and widely used as an embedded database for local storage in many programs like web browsers and even operating systems.

@@ -17,11 +17,11 @@ def home():
 	database_helper.get_db()
 	return 'This is a front page, looking beautiful'
 
-@app.route('/signin')
+@app.route('/signin', methods=["POST"])
 def signIn():
 	#Authenticates user, returns string containing random generated token
-	email = request.args.get('email')
-	password = request.args.get('password')
+	email = request.form['email']
+	password = request.form['password']
 	user = database_helper.getUser(email)
 	if user == None:
 		return 'no such user'
@@ -41,31 +41,31 @@ def showUsers():
 		print row
 	return 'done'
 
-@app.route('/signup')
+@app.route('/signup', methods=["POST"])
 def signUp():
 	#Registers user in database
-	email = request.args.get('email')
-	password = request.args.get('password')
-	firstname = request.args.get('firstname')
-	familyname = request.args.get('familyname')
-	gender = request.args.get('gender')
-	city = request.args.get('city')
-	country = request.args.get('country')
+	email = request.form['email']
+	password = request.form['password']
+	firstname = request.form['firstname']
+	familyname = request.form['familyname']
+	gender = request.form['gender']
+	city = request.form['city']
+	country = request.form['country']
 	if email == None:
 		return 'you need to fill in your info'
 	exists = database_helper.existsUser(email)
 	#return answer
 	if exists == False:
 		hashPass = hashPassword(password)
-		database_helper.addUser(email, hashpass, firstname, familyname, gender, city, country)
+		database_helper.addUser(email, hashPass, firstname, familyname, gender, city, country)
 		return 'you just signed up'
 	else:
 		return 'user already exists'
 		
-@app.route('/signout')
+@app.route('/signout', methods=["POST"])
 def signOut():
 	#Signs you out!
-	token=request.args.get('token')
+	token=request.form['token']
 	try:
 		if loggedInUsers[token] != None:
 			del loggedInUsers[token]
@@ -74,12 +74,12 @@ def signOut():
 		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
 		
 
-@app.route('/changepassword')
+@app.route('/changepassword', methods=["POST"])
 def changePassword():
 	#Changes a users password
-	token = request.args.get('token')
-	oldPass = request.args.get('oldpassword')
-	newPass = request.args.get('newpassword')
+	token = request.form['token']
+	oldPass = request.form['oldpassword']
+	newPass = request.form['newpassword']
 	try:
 		email = loggedInUsers[token]
 	except Exception, e:
@@ -145,12 +145,12 @@ def getUserMessagesByEmail():
 	else:
 		return 'no such user'
 
-@app.route('/postmessage')
+@app.route('/postmessage', methods=["POST"])
 def postMessage():
 	#Post a message
-	token = request.args.get('token')
-	message = request.args.get('message')
-	email = request.args.get('email')
+	token = request.form['token']
+	message = request.form['message']
+	email = request.form['email']
 	try:
 		fromEmail = loggedInUsers[token]
 	except Exception, e:
