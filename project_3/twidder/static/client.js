@@ -200,7 +200,6 @@ var changeView = function(a) {
 
 var loadPersonalInfo = function() {
     xmlhttp.open("GET","http://127.0.0.1:5000/getuserdata?token="+window.localStorage.token,true);
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function()
     {
         if (xmlhttp.readyState==4 && xmlhttp.status==200)
@@ -257,21 +256,30 @@ var loadMyWall = function() {
 
 var loadSearchWall = function() {
     var mail = document.getElementById("searchField").value;
-    var msg = serverstub.getUserMessagesByEmail(window.localStorage.token, mail);
-    var wall = document.getElementById("browseWall");
+    xmlhttp.open("GET","http://127.0.0.1:5000/getmessageemail?token="+window.localStorage.token+"email="+mail,true);
+    xmlhttp.onreadystatechange = function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            var inf = document.getElementById("personalInfo").getElementsByTagName("label");
+            var info = JSON.parse(xmlhttp.responseText);
+            var wall = document.getElementById("browseWall");
 
-    if (msg.success) {
+    if (info.success) {
         document.getElementById("msgBrowse").innerHTML = "";
         foundEmail = mail;
         loadBrowseProfile();
         document.getElementById("messageBoxBrowse").classList.remove("hide");
-        loadWall(msg, wall);
+        loadWall(info, wall);
     } else {
-        document.getElementById("msgBrowse").innerHTML = msg.message;
+        document.getElementById("msgBrowse").innerHTML = info.message;
         document.getElementById("browseProfile").classList.add("hide");
         document.getElementById("messageBoxBrowse").classList.add("hide");
         clearWall(wall);
     }
+        }
+    };    
+    xmlhttp.send();      
 }
 
 var loadWall = function(msg, wall) {
