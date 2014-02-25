@@ -52,11 +52,20 @@ var changePassword = function() {
 
     if (oldPass.value != "" && newPass.value != "") {
         changeMsg.innerHTML = "";
-        xmlhttp.open("POST","127.0.0.1:5000/changepassword",true);
+        xmlhttp.open("POST","http://127.0.0.1:5000/changepassword",true);
         xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                var response = JSON.parse(xmlhttp.responseText);
+                console.log(response);
+                changeMsg.innerHTML = response.message;                  
+                oldPass.value = "";
+                newPass.value = "";
+            }
+        }
         xmlhttp.send("token="+window.localStorage.token+"&oldpassword="+oldPass.value+"&newpassword="+newPass.value);
-        //returned = xmlhttp.responseText;
-        //serverstub.changePassword(window.localStorage.token, oldPass.value, newPass.value).message;
+        
     } else {
         oldPass.classList.add("error");
         newPass.classList.add("error");
@@ -69,16 +78,16 @@ var signOut = function() {
     xmlhttp.open("POST","http://127.0.0.1:5000/signout",true);
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function()
-        {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-                var response = JSON.parse(xmlhttp.responseText);
-                console.log(response);
-                if (response.success) {
-                    window.localStorage.removeItem("token");
-                    displayView();
-                }
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            var response = JSON.parse(xmlhttp.responseText);
+            console.log(response);
+            if (response.success) {
+                window.localStorage.removeItem("token");
+                displayView();
             }
         }
+    }
     xmlhttp.send("token="+window.localStorage.token);
     
     
@@ -114,7 +123,7 @@ var validateLogin = function() {
                 }
 
                 if (response.success) {
-                    localStorage.token = response.data;
+                    window.localStorage.token = response.data;
                     displayView();
                 }
             }
@@ -158,7 +167,18 @@ var validateSignUp = function(formData) {
         }
     }
     if (noError == true) {
-        document.getElementById("signupMsg").innerHTML = serverstub.signUp(formInputs).message;
+        xmlhttp.open("POST","http://127.0.0.1:5000/signup",true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                var response = JSON.parse(xmlhttp.responseText);
+                console.log(response);
+                document.getElementById("signupMsg").innerHTML = response.message;
+            }
+        };    
+        xmlhttp.send("email="+formInputs.email+"&password="+formInputs.password+"&firstname="+formInputs.firstname+"&familyname="+formInputs.familyname+"&gender="+formInputs.gender+"&city="+formInputs.city+"&country="+formInputs.country);
     }
     return noError;
 }
@@ -179,14 +199,25 @@ var changeView = function(a) {
 }
 
 var loadPersonalInfo = function() {
-    var info = serverstub.getUserDataByToken(window.localStorage.token);
-    var inf = document.getElementById("personalInfo").getElementsByTagName("label");
-    inf["fname"].innerHTML = info.data.firstname;
-    inf["lname"].innerHTML = info.data.familyname;
-    inf["email"].innerHTML = info.data.email;
-    inf["gender"].innerHTML = info.data.gender;
-    inf["city"].innerHTML = info.data.city;
-    inf["country"].innerHTML = info.data.country;
+    xmlhttp.open("GET","http://127.0.0.1:5000/getuserdata?token="+window.localStorage.token,true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.onreadystatechange = function()
+    {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200)
+        {
+            var inf = document.getElementById("personalInfo").getElementsByTagName("label");
+            var info = JSON.parse(xmlhttp.responseText);
+            console.log(info);
+            inf["fname"].innerHTML = info.user[2];
+            inf["lname"].innerHTML = info.user[3];
+            inf["email"].innerHTML = info.user[0];
+            inf["gender"].innerHTML = info.user[4];
+            inf["city"].innerHTML = info.user[5];
+            inf["country"].innerHTML = info.user[6];
+        }
+    };    
+    xmlhttp.send();   
+    
 }
 
 var loadBrowseProfile = function() {
