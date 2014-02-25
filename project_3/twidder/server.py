@@ -20,7 +20,6 @@ def home():
 
 @app.route('/signin', methods=["POST"])
 def signIn():
-	print 'something requested meeeeee'
 	#Authenticates user, returns string containing random generated token
 	email = request.form['email']
 	password = request.form['password']
@@ -144,7 +143,7 @@ def getUserMessagesByEmail():
 		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
 	if database_helper.existsUser(email):
 		messages = database_helper.getMessages(email)
-		return json.dumps({'success' : True,  'messages:' : messages})
+		return json.dumps({'success' : True,  'messages' : messages})
 	else:
 		return json.dumps({'success' : False, 'message' : 'no such user'})
 

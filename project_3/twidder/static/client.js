@@ -115,7 +115,6 @@ var validateLogin = function() {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
                 var response = JSON.parse(xmlhttp.responseText);
-                console.log(response);
                 document.getElementById("loginMsg").innerHTML = response.message;
                 if (!response.success) {
                     inputs["logemail"].classList.add("error");
@@ -206,7 +205,6 @@ var loadPersonalInfo = function() {
         {
             var inf = document.getElementById("personalInfo").getElementsByTagName("label");
             var info = JSON.parse(xmlhttp.responseText);
-            console.log(info);
             inf["fname"].innerHTML = info.user[2];
             inf["lname"].innerHTML = info.user[3];
             inf["email"].innerHTML = info.user[0];
@@ -221,14 +219,20 @@ var loadPersonalInfo = function() {
 
 var loadBrowseProfile = function() {
     document.getElementById("browseProfile").classList.remove("hide");
-    var info = serverstub.getUserDataByEmail(window.localStorage.token, foundEmail);
-    var inf = document.getElementById("browseProfile").getElementsByTagName("label");
-    inf["fnameBrowse"].innerHTML = info.data.firstname;
-    inf["lnameBrowse"].innerHTML = info.data.familyname;
-    inf["emailBrowse"].innerHTML = info.data.email;
-    inf["genderBrowse"].innerHTML = info.data.gender;
-    inf["cityBrowse"].innerHTML = info.data.city;
-    inf["countryBrowse"].innerHTML = info.data.country;
+    xmlhttp.open("GET","http://127.0.0.1:5000/getuserdataemail?token="+window.localStorage.token+"&email="+foundEmail, true);
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            var info = JSON.parse(xmlhttp.responseText);
+            var inf = document.getElementById("browseProfile").getElementsByTagName("label");
+            inf["fnameBrowse"].innerHTML = info.user[2];
+            inf["lnameBrowse"].innerHTML = info.user[3];
+            inf["emailBrowse"].innerHTML = info.user[0];
+            inf["genderBrowse"].innerHTML = info.user[4];
+            inf["cityBrowse"].innerHTML = info.user[5];
+            inf["countryBrowse"].innerHTML = info.user[6];
+        }
+    }
+    xmlhttp.send();    
 }
 
 var postMsg = function() {
@@ -243,14 +247,14 @@ var postBrowseMsg = function() {
     var msg = document.getElementById("postMsgBrowse").value;
     if (msg == "")
         return;
-
-    xmlhttp.open("POST","http://127.0.0.1:5000/postmesage",true);
-     xmlhttp.onreadystatechange = function() {
+    xmlhttp.open("POST","http://127.0.0.1:5000/postmessage",true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             loadSearchWall();   
         }
     }
-xmlhttp.send("token="+window.localStorage.token+"message"+msg+"email="+mail);
+    xmlhttp.send("token="+window.localStorage.token+"&message="+msg+"&email="+foundEmail);
 }
 
 //------
@@ -262,14 +266,13 @@ var loadMyWall = function() {
 
 var loadSearchWall = function() {
     var mail = document.getElementById("searchField").value;
-    xmlhttp.open("GET","http://127.0.0.1:5000/getmessageemail?token="+window.localStorage.token+"email="+mail,true);
-    
+    xmlhttp.open("GET","http://127.0.0.1:5000/getmessageemail?token="+window.localStorage.token+"&email="+mail,true);
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             var inf = document.getElementById("personalInfo").getElementsByTagName("label");
             var info = JSON.parse(xmlhttp.responseText);
+            console.log(info);
             var wall = document.getElementById("browseWall");
-
             if (info.success) {
                 document.getElementById("msgBrowse").innerHTML = "";
                 foundEmail = mail;
@@ -289,6 +292,7 @@ var loadSearchWall = function() {
 
 var loadWall = function(msg, wall) {
     clearWall(wall);
+    console.log(msg);
     addToWall(msg, wall);
 }
 
@@ -297,8 +301,10 @@ var clearWall = function(wall) {
 }
 
 var addToWall = function(msg, wall) {
-    for (var i = 0; i <= msg.data.length - 1; i++) {
-        wall.innerHTML += "<div class=\"wallContent\">" + "<label id=\"writer\">" + "From:" + msg.data[i].writer + "</label>" + msg.data[i].content + "</div>";
+    console.log(msg);
+    console.log(msg.messages);
+    for (var i = 0; i <= msg.messages.length - 1; i++) {
+        wall.innerHTML += "<div class=\"wallContent\">" + "<label id=\"writer\">" + "From:" + msg.messages[i][1] + "</label>" + msg.messages[i][2] + "</div>";
     };
 }
 
