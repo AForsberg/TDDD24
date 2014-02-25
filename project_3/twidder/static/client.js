@@ -66,20 +66,22 @@ var changePassword = function() {
 //ok
 var signOut = function() {
 
-    xmlhttp.open("POST","127.0.0.1:5000/signout",true);
+    xmlhttp.open("POST","http://127.0.0.1:5000/signout",true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function()
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var response = JSON.parse(xmlhttp.responseText);
-
+                console.log(response);
                 if (response.success) {
                     window.localStorage.removeItem("token");
+                    displayView();
                 }
             }
         }
-    xmlhtttp.send("token="+window.localStorage.token);
+    xmlhttp.send("token="+window.localStorage.token);
     
-    displayView();
+    
 }
 
 //ok
