@@ -243,8 +243,14 @@ var postBrowseMsg = function() {
     var msg = document.getElementById("postMsgBrowse").value;
     if (msg == "")
         return;
-    serverstub.postMessage(window.localStorage.token, msg, foundEmail);
-    loadSearchWall();
+
+    xmlhttp.open("POST","http://127.0.0.1:5000/postmesage",true);
+     xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            loadSearchWall();   
+        }
+    }
+xmlhttp.send("token="+window.localStorage.token+"message"+msg+"email="+mail);
 }
 
 //------
@@ -257,26 +263,25 @@ var loadMyWall = function() {
 var loadSearchWall = function() {
     var mail = document.getElementById("searchField").value;
     xmlhttp.open("GET","http://127.0.0.1:5000/getmessageemail?token="+window.localStorage.token+"email="+mail,true);
-    xmlhttp.onreadystatechange = function()
-    {
-        if (xmlhttp.readyState==4 && xmlhttp.status==200)
-        {
+    
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             var inf = document.getElementById("personalInfo").getElementsByTagName("label");
             var info = JSON.parse(xmlhttp.responseText);
             var wall = document.getElementById("browseWall");
 
-    if (info.success) {
-        document.getElementById("msgBrowse").innerHTML = "";
-        foundEmail = mail;
-        loadBrowseProfile();
-        document.getElementById("messageBoxBrowse").classList.remove("hide");
-        loadWall(info, wall);
-    } else {
-        document.getElementById("msgBrowse").innerHTML = info.message;
-        document.getElementById("browseProfile").classList.add("hide");
-        document.getElementById("messageBoxBrowse").classList.add("hide");
-        clearWall(wall);
-    }
+            if (info.success) {
+                document.getElementById("msgBrowse").innerHTML = "";
+                foundEmail = mail;
+                loadBrowseProfile();
+                document.getElementById("messageBoxBrowse").classList.remove("hide");
+                loadWall(info, wall);
+            } else {
+                document.getElementById("msgBrowse").innerHTML = info.message;
+                document.getElementById("browseProfile").classList.add("hide");
+                document.getElementById("messageBoxBrowse").classList.add("hide");
+                clearWall(wall);
+            }
         }
     };    
     xmlhttp.send();      
