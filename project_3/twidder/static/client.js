@@ -54,7 +54,7 @@ var changePassword = function() {
         changeMsg.innerHTML = "";
         xmlhttp.open("POST","127.0.0.1:5000/changepassword",true);
         xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-        xmlhtto.send("token="+window.localStorage.token+"&oldpassword="+oldPass.value+"&newpassword="+newPass.value);
+        xmlhttp.send("token="+window.localStorage.token+"&oldpassword="+oldPass.value+"&newpassword="+newPass.value);
         //returned = xmlhttp.responseText;
         //serverstub.changePassword(window.localStorage.token, oldPass.value, newPass.value).message;
     } else {
@@ -66,11 +66,19 @@ var changePassword = function() {
 //ok
 var signOut = function() {
 
-    if (serverstub.signOut(window.localStorage.token).success) {
-        if (window.localStorage.token) {
-            window.localStorage.removeItem("token");
+    xmlhttp.open("POST","127.0.0.1:5000/signout",true);
+    xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+                var response = JSON.parse(xmlhttp.responseText);
+
+                if (response.success) {
+                    window.localStorage.removeItem("token");
+                }
+            }
         }
-    }
+    xmlhtttp.send("token="+window.localStorage.token);
+    
     displayView();
 }
 
