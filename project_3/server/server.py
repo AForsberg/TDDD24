@@ -24,13 +24,13 @@ def signIn():
 	password = request.form['password']
 	user = database_helper.getUser(email)
 	if user == None:
-		return 'no such user'
+		return json.dumps({'success' : False, 'message' : 'no such user'})
 	elif verifyPass(password, user[1]):
 		token =''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(32)])
 		loggedInUsers[token] = email
 		return json.dumps({'success' : True, 'message' : 'you logged in', 'data':token})
 	else:
-		return 'wrong password'
+		return json.dumps({'success' : False, 'message' : 'wrong password'})
 		
 
 @app.route('/users')
@@ -52,15 +52,16 @@ def signUp():
 	city = request.form['city']
 	country = request.form['country']
 	if email == None:
-		return 'you need to fill in your info'
+		return json.dumps({'success' : False, 'message' : 'you need to fill in your info'})
 	exists = database_helper.existsUser(email)
 	#return answer
 	if exists == False:
 		hashPass = hashPassword(password)
 		database_helper.addUser(email, hashPass, firstname, familyname, gender, city, country)
-		return 'you just signed up'
+		return json.dumps({'success' : True, 'message' : 'you just signed up'})
 	else:
-		return 'user already exists'
+		return json.dumps({'success' : False, 'message' : 'user already exists'})
+
 		
 @app.route('/signout', methods=["POST"])
 def signOut():
@@ -100,9 +101,9 @@ def getUserDataByToken():
 	try:
 		email = loggedInUsers[token]
 	except Exception, e:
-		return 'you are not signed in'
+		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
 	info = database_helper.getUser(email)
-	return json.dumps({'user: ' : info})
+	return json.dumps({'success' : True, 'user' : info})
 
 @app.route('/getuserdataemail')
 def getUserDataByEmail():
@@ -112,12 +113,12 @@ def getUserDataByEmail():
 	try:
 		loggedInUser = loggedInUsers[token]
 	except Exception, e:
-		return 'you are not signed in'
+		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
 	if database_helper.existsUser(email):
 		user = database_helper.getUser(email)
-		return json.dumps({'user:' : user})
+		return json.dumps({'success' : True, 'user' : user})
 	else:
-		return 'no such user'
+		return json.dumps({'success' : False, 'message' : 'no such user'})
 
 @app.route('/getmessagetoken')
 def getUserMessagesByToken():
@@ -126,9 +127,9 @@ def getUserMessagesByToken():
 	try:
 		email = loggedInUsers[token]
 	except Exception, e:
-		return 'you are not signed in'
+		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
 	messages = database_helper.getMessages(email)
-	return json.dumps({'messages' : messages})
+	return json.dumps({'success' : True , 'messages' : messages})
 
 @app.route('/getmessageemail')
 def getUserMessagesByEmail():
@@ -138,12 +139,12 @@ def getUserMessagesByEmail():
 	try:
 		loggedInUser = loggedInUsers[token]
 	except Exception, e:
-		return 'you are not signed in'
+		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
 	if database_helper.existsUser(email):
 		messages = database_helper.getMessages(email)
-		return json.dumps({'messages:' : messages})
+		return json.dumps({'success' : True,  'messages:' : messages})
 	else:
-		return 'no such user'
+		return json.dumps({'success' : False, 'message' : 'no such user'})
 
 @app.route('/postmessage', methods=["POST"])
 def postMessage():
