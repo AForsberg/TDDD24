@@ -11,6 +11,7 @@
 //    ~~    ~~  
 
 var foundEmail = null;
+var xmlhttp = new XMLHttpRequest();
 
 var displayView = function() {
     if (!window.localStorage.token) {
@@ -50,7 +51,12 @@ var changePassword = function() {
     var changeMsg = document.getElementById("changeMsg");
 
     if (oldPass.value != "" && newPass.value != "") {
-        changeMsg.innerHTML = serverstub.changePassword(window.localStorage.token, oldPass.value, newPass.value).message;
+        changeMsg.innerHTML = "";
+        xmlhttp.open("POST","127.0.0.1:5000/changepassword",true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhtto.send("token="+window.localStorage.token+"&oldpassword="+oldPass.value+"&newpassword="+newPass.value);
+        //returned = xmlhttp.responseText;
+        //serverstub.changePassword(window.localStorage.token, oldPass.value, newPass.value).message;
     } else {
         oldPass.classList.add("error");
         newPass.classList.add("error");
@@ -59,6 +65,7 @@ var changePassword = function() {
 
 //ok
 var signOut = function() {
+
     if (serverstub.signOut(window.localStorage.token).success) {
         if (window.localStorage.token) {
             window.localStorage.removeItem("token");
@@ -82,17 +89,29 @@ var validateLogin = function() {
     };
 
     if (noError == true) {
-        var response = serverstub.signIn(email, password);
-        document.getElementById("loginMsg").innerHTML = response.message;
-        if (!response.success) {
-            inputs["logemail"].classList.add("error");
-            inputs["logpassword"].classList.add("error");
-        }
+        xmlhttp.open("POST","http://127.0.0.1:5000/signin",true);
+        xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+        xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+                var response = JSON.parse(xmlhttp.responseText);
+                console.log(response);
+                document.getElementById("loginMsg").innerHTML = response.message;
+                if (!response.success) {
+                    inputs["logemail"].classList.add("error");
+                    inputs["logpassword"].classList.add("error");
+                }
 
-        if (response.success) {
-            localStorage.token = response.data;
-            displayView();
-        }
+                if (response.success) {
+                    localStorage.token = response.data;
+                    displayView();
+                }
+            }
+        };    
+        xmlhttp.send("email="+email+"&password="+password);
+        //document.getElementById("loginMsg").innerHTML 
+        
     }
     return noError;
 }

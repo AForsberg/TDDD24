@@ -7,6 +7,7 @@ import json
 import base64
 import uuid
 import hashlib
+from gevent.wsgi import WSGIServer
 from flask import Flask, request
 app = Flask(__name__)
 
@@ -15,10 +16,11 @@ loggedInUsers = {}
 @app.route('/')
 def home():
 	database_helper.get_db()
-	return 'This is a front page, looking beautiful'
+	#return app.send_from_directory('../client', 'client.html')
 
 @app.route('/signin', methods=["POST"])
 def signIn():
+	print 'something requested meeeeee'
 	#Authenticates user, returns string containing random generated token
 	email = request.form['email']
 	password = request.form['password']
@@ -175,6 +177,8 @@ def verifyPass(password, hashedPass):
 	reHashed = hashPassword(password)
 	return reHashed == hashedPass
 
+http_server = WSGIServer(('', 5000), app)
+http_server.serve_forever()
 
 if __name__=='__main__':
 	app.run(debug=True)
