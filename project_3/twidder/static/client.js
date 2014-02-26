@@ -36,9 +36,30 @@ var displayView = function() {
 
     }
 };
+var getSocket = function(){
+    ws = new WebSocket("ws://127.0.0.1:5000/socket");
+    ws.onopen = function(e){
+        console.log("connection opened");
+    }
+    ws.onmessage = function(msg){
+        console.log("hej");
+    }
+}
 
 //Runs when page is loaded.
 window.onload = function() {
+    if ("WebSocket" in window) {
+        ws = new WebSocket("ws://127.0.0.1:5000/socket");
+        //console.dir(ws);
+        ws.onopen = function(e){
+            console.log("connection opened");
+        }
+        ws.onmessage = function(msg){
+            console.log("hej");
+        }
+    } else{
+        alert("Websocket not supported.")
+    }
     displayView();
 };
 

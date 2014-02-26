@@ -8,10 +8,12 @@ import base64
 import uuid
 import hashlib
 from gevent.wsgi import WSGIServer
+from geventwebsocket.handler import WebSocketHandler
 from flask import Flask, request
 app = Flask(__name__)
 
 loggedInUsers = {}
+ws = None
 
 @app.route('/')
 def home():
@@ -163,6 +165,7 @@ def postMessage():
 		toEmail = email
 	if database_helper.existsUser(toEmail):
 		database_helper.addMessage(toEmail, fromEmail, message)
+		ws.send('hej')
 		return json.dumps({'success' : True, 'message' : 'message posted'})
 	else:
 		return json.dumps({'success' : False, 'message' : 'no such user'})
@@ -176,8 +179,14 @@ def verifyPass(password, hashedPass):
 	reHashed = hashPassword(password)
 	return reHashed == hashedPass
 
-http_server = WSGIServer(('', 5000), app)
-http_server.serve_forever()
+@app.route('/socket')
+def socket():
+	if request.environ.get('wsgi.websocket'):
+		ws = request.environ['wsgi.websocket']
+	return
+
 
 if __name__=='__main__':
+	http_server = WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
+	http_server.serve_forever()
 	app.run(debug=True)
