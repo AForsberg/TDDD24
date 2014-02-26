@@ -30,8 +30,10 @@ var displayView = function() {
     } else {
         document.getElementById("view").innerHTML = document.getElementById("profileView").innerHTML;
         changeView(document.getElementById("home"));
-        loadPersonalInfo();
+        //loadPersonalInfo();
         loadMyWall();
+
+
     }
 };
 
@@ -198,13 +200,13 @@ var changeView = function(a) {
 }
 
 var loadPersonalInfo = function() {
-    xmlhttp.open("GET","http://127.0.0.1:5000/getuserdata?token="+window.localStorage.token,true);
-    xmlhttp.onreadystatechange = function()
-    {
+    xmlhttp.open("GET","http://127.0.0.1:5000/getuserdata?token="+window.localStorage.token, true);
+    xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200)
         {
             var inf = document.getElementById("personalInfo").getElementsByTagName("label");
             var info = JSON.parse(xmlhttp.responseText);
+            console.log(info);
             inf["fname"].innerHTML = info.user[2];
             inf["lname"].innerHTML = info.user[3];
             inf["email"].innerHTML = info.user[0];
@@ -212,9 +214,9 @@ var loadPersonalInfo = function() {
             inf["city"].innerHTML = info.user[5];
             inf["country"].innerHTML = info.user[6];
         }
-    };    
+
+    };
     xmlhttp.send();   
-    
 }
 
 var loadBrowseProfile = function() {
@@ -231,7 +233,7 @@ var loadBrowseProfile = function() {
             inf["cityBrowse"].innerHTML = info.user[5];
             inf["countryBrowse"].innerHTML = info.user[6];
         }
-    }
+    };
     xmlhttp.send();    
 }
 
@@ -239,8 +241,14 @@ var postMsg = function() {
     var msg = document.getElementById("postMsg").value;
     if (msg == "")
         return;
-    serverstub.postMessage(window.localStorage.token, msg, null);
-    loadMyWall();
+    xmlhttp.open("POST","http://127.0.0.1:5000/postmessage",true);
+    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
+    xmlhttp.onreadystatechange = function() {
+        if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            loadMyWall();   
+        }
+    };
+    xmlhttp.send("token="+window.localStorage.token+"&message="+msg+"&email=");
 }
 
 var postBrowseMsg = function() {
@@ -253,15 +261,30 @@ var postBrowseMsg = function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             loadSearchWall();   
         }
-    }
+    };
     xmlhttp.send("token="+window.localStorage.token+"&message="+msg+"&email="+foundEmail);
 }
 
 //------
 var loadMyWall = function() {
-    var msg = serverstub.getUserMessagesByToken(window.localStorage.token);
+    var mail = foundEmail;    
+    xmlhttp.open("GET", "http://127.0.0.1:5000/getmessagetoken?token="+window.localStorage.token, true);
+    xmlhttp.onreadystatechange = function() {
+        if(xmlhttp.readyState == 4 && xmlhttp.status == 200){
+            var wall = document.getElementById("myWall");
+            var msg = JSON.parse(xmlhttp.responseText);
+            if (msg.success) {
+                loadPersonalInfo();
+                loadWall(msg, wall);
+            };
+        }
+    };
+    xmlhttp.send();
+    /*var msg = serverstub.getUserMessagesByToken(window.localStorage.token);
     var wall = document.getElementById("myWall");
-    loadWall(msg, wall);
+    loadWall(msg, wall);*/
+
+
 }
 
 var loadSearchWall = function() {
@@ -292,7 +315,6 @@ var loadSearchWall = function() {
 
 var loadWall = function(msg, wall) {
     clearWall(wall);
-    console.log(msg);
     addToWall(msg, wall);
 }
 
@@ -301,9 +323,11 @@ var clearWall = function(wall) {
 }
 
 var addToWall = function(msg, wall) {
-    console.log(msg);
-    console.log(msg.messages);
-    for (var i = 0; i <= msg.messages.length - 1; i++) {
+    console.log(msg.messages.length);
+    if (msg.messages.length == 0) {
+        return
+    };
+    for (var i = msg.messages.length - 1; i >= 0; i--) {
         wall.innerHTML += "<div class=\"wallContent\">" + "<label id=\"writer\">" + "From:" + msg.messages[i][1] + "</label>" + msg.messages[i][2] + "</div>";
     };
 }

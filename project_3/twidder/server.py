@@ -129,8 +129,8 @@ def getUserMessagesByToken():
 		email = loggedInUsers[token]
 	except Exception, e:
 		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
-	data = database_helper.getMessages(email)
-	return json.dumps({'success' : True , 'messages' : data})
+	messages = database_helper.getMessages(email)
+	return json.dumps({'success' : True , 'messages' : messages})
 
 @app.route('/getmessageemail')
 def getUserMessagesByEmail():
@@ -157,7 +157,7 @@ def postMessage():
 		fromEmail = loggedInUsers[token]
 	except Exception, e:
 		return json.dumps({'success' : False, 'message' : 'you are not signed in'})
-	if email == None:
+	if email == None or email == "":
 		toEmail = fromEmail
 	else:
 		toEmail = email
