@@ -18,9 +18,8 @@ ws.onopen = function(e){
     console.log("connection opened");
 }
 ws.onmessage = function(msg){
-    //loadMyWall();
-    //loadSearchWall();
-    console.log("onmessage kör");
+    loadMyWall(true);
+    console.log("onmessage kör, uppdatera wall");
 }
 ws.onclose = function(e) {
     console.log(e);
@@ -294,7 +293,7 @@ var postBrowseMsg = function() {
 }
 
 //------
-var loadMyWall = function() {
+var loadMyWall = function(both) {
     var mail = foundEmail;    
     xmlhttp.open("GET", "http://127.0.0.1:5000/getmessagetoken?token="+window.localStorage.token, true);
     xmlhttp.onreadystatechange = function() {
@@ -305,8 +304,12 @@ var loadMyWall = function() {
                 loadPersonalInfo();
                 loadWall(msg, wall);
             };
+            console.log("load my wall");
+            if (both) {
+                loadSearchWall();
+            };
+
         }
-        console.log("load my wall");
     };
     xmlhttp.send();
     /*var msg = serverstub.getUserMessagesByToken(window.localStorage.token);
