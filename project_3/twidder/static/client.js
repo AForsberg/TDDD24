@@ -12,6 +12,21 @@
 
 var foundEmail = null;
 var xmlhttp = new XMLHttpRequest();
+var ws = new WebSocket("ws://127.0.0.1:5000/socket");
+ws.onopen = function(e){
+    ws.send('hej')
+    console.log("connection opened");
+}
+ws.onmessage = function(msg){
+    console.log(msg);
+}
+ws.onclose = function(e) {
+    console.log(e);
+    console.log("connection closed");
+}
+ws.onerror = function(e){
+    console.log(e);
+}
 
 var displayView = function() {
     if (!window.localStorage.token) {
@@ -48,18 +63,6 @@ var getSocket = function(){
 
 //Runs when page is loaded.
 window.onload = function() {
-    if ("WebSocket" in window) {
-        ws = new WebSocket("ws://127.0.0.1:5000/socket");
-        //console.dir(ws);
-        ws.onopen = function(e){
-            console.log("connection opened");
-        }
-        ws.onmessage = function(msg){
-            console.log("hej");
-        }
-    } else{
-        alert("Websocket not supported.")
-    }
     displayView();
 };
 
@@ -266,6 +269,7 @@ var postMsg = function() {
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+            ws.send('message sent');
             loadMyWall();   
         }
     };
