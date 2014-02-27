@@ -18,7 +18,9 @@ ws.onopen = function(e){
     console.log("connection opened");
 }
 ws.onmessage = function(msg){
-    console.log(msg);
+    //loadMyWall();
+    //loadSearchWall();
+    console.log("onmessage kör");
 }
 ws.onclose = function(e) {
     console.log(e);
@@ -51,6 +53,7 @@ var displayView = function() {
 
     }
 };
+
 var getSocket = function(){
     ws = new WebSocket("ws://127.0.0.1:5000/socket");
     ws.onopen = function(e){
@@ -269,7 +272,7 @@ var postMsg = function() {
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-            ws.send('message sent');
+        	console.log("okejsadnakbdiasbdoabd");
             loadMyWall();   
         }
     };
@@ -303,13 +306,12 @@ var loadMyWall = function() {
                 loadWall(msg, wall);
             };
         }
+        console.log("load my wall");
     };
     xmlhttp.send();
     /*var msg = serverstub.getUserMessagesByToken(window.localStorage.token);
     var wall = document.getElementById("myWall");
     loadWall(msg, wall);*/
-
-
 }
 
 var loadSearchWall = function() {

@@ -7,13 +7,13 @@ import json
 import base64
 import uuid
 import hashlib
-from gevent.pywsgi import WSGIServer
-from geventwebsocket import WebSocketServer
+from gevent.wsgi import WSGIServer
+from geventwebsocket.handler import WebSocketHandler
 from flask import Flask, request
 app = Flask(__name__)
 
 loggedInUsers = {}
-ws = None
+connectedWS = []
 
 @app.route('/')
 def home():
@@ -165,6 +165,8 @@ def postMessage():
 		toEmail = email
 	if database_helper.existsUser(toEmail):
 		database_helper.addMessage(toEmail, fromEmail, message)
+		for ws in connectedWS:
+			ws.send("hejhopp")
 		return json.dumps({'success' : True, 'message' : 'message posted'})
 	else:
 		return json.dumps({'success' : False, 'message' : 'no such user'})
@@ -180,18 +182,25 @@ def verifyPass(password, hashedPass):
 
 @app.route('/socket')
 def socket():
-	if request.environ.get('wsgi.websocket'):
-		ws = request.environ['wsgi.websocket']
-		print 'socket'
-		while True:
-			recievedData = ws.recieve()
-			print ""+recievedData
-			ws.send(recievedData)
-	return
+	ws = None
+	try:
 
+		if request.environ.get('wsgi.websocket'):
+			ws = request.environ['wsgi.websocket']
+			connectedWS.append(ws)
+			print 'socket'
+			while True:
+				#recievedData = 
+				ws.receive()
+				#print recievedData
+				#ws.send(recievedData)
+		return
+
+	except Exception, e:
+		print e
+		connectedWS.remove(ws)
 
 if __name__=='__main__':
-	http_server = WSGIServer(('', 5000), app)
-	ws_server = WebSocketServer(http_server)
-	ws_server.serve_forever()
+	http_server = WSGIServer(('', 5000), app, handler_class=WebSocketHandler)
+	http_server.serve_forever()
 	app.run(debug=True)
