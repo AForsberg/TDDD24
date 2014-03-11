@@ -1,3 +1,8 @@
+TDDD24
+
+Antfo325
+Sebka720
+
 1.
 XML and JSON are similar in the fact that they can be used for a lot of same situations. If you can solve something with JSON, you can probably solve it with XML as well. Both are ways of exchanging document/data that is readable both to a human and to a computer.
 The main difference between XML and JSON is that XML is for encoding documents and JSON is for encoding data. JSON is simpler to write and read, not as verbose as XML where you need < and ending tags and such. Also simpler for a computer to process. XML uses tree structures where JSON uses an object structure that is much easier to translate into a programming language. In this case where we use JavaScript and Python we don't need to parse the JSON object, it translates naturally into variables.
