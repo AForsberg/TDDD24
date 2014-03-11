@@ -15,18 +15,15 @@ var xmlhttp = new XMLHttpRequest();
 var ws = new WebSocket("ws://127.0.0.1:5000/socket");
 ws.onopen = function(e){
     ws.send('hej')
-    console.log("connection opened");
 }
 ws.onmessage = function(msg){
     loadMyWall(true);
-    console.log("onmessage kör, uppdatera wall");
 }
 ws.onclose = function(e) {
-    console.log(e);
-    console.log("connection closed");
+    
 }
 ws.onerror = function(e){
-    console.log(e);
+    
 }
 
 var displayView = function() {
@@ -56,10 +53,8 @@ var displayView = function() {
 var getSocket = function(){
     ws = new WebSocket("ws://127.0.0.1:5000/socket");
     ws.onopen = function(e){
-        console.log("connection opened");
     }
     ws.onmessage = function(msg){
-        console.log("hej");
     }
 }
 
@@ -86,7 +81,6 @@ var changePassword = function() {
         {
             if (xmlhttp.readyState==4 && xmlhttp.status==200) {
                 var response = JSON.parse(xmlhttp.responseText);
-                console.log(response);
                 changeMsg.innerHTML = response.message;                  
                 oldPass.value = "";
                 newPass.value = "";
@@ -109,7 +103,6 @@ var signOut = function() {
     {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             var response = JSON.parse(xmlhttp.responseText);
-            console.log(response);
             if (response.success) {
                 window.localStorage.removeItem("token");
                 displayView();
@@ -201,7 +194,6 @@ var validateSignUp = function(formData) {
             if (xmlhttp.readyState==4 && xmlhttp.status==200)
             {
                 var response = JSON.parse(xmlhttp.responseText);
-                console.log(response);
                 document.getElementById("signupMsg").innerHTML = response.message;
             }
         };    
@@ -232,7 +224,6 @@ var loadPersonalInfo = function() {
         {
             var inf = document.getElementById("personalInfo").getElementsByTagName("label");
             var info = JSON.parse(xmlhttp.responseText);
-            console.log(info);
             inf["fname"].innerHTML = info.user[2];
             inf["lname"].innerHTML = info.user[3];
             inf["email"].innerHTML = info.user[0];
@@ -271,7 +262,6 @@ var postMsg = function() {
     xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
-        	console.log("okejsadnakbdiasbdoabd");
             loadMyWall();   
         }
     };
@@ -304,7 +294,6 @@ var loadMyWall = function(both) {
                 loadPersonalInfo();
                 loadWall(msg, wall);
             };
-            console.log("load my wall");
             if (both) {
                 loadSearchWall();
             };
@@ -319,12 +308,14 @@ var loadMyWall = function(both) {
 
 var loadSearchWall = function() {
     var mail = document.getElementById("searchField").value;
+    if(mail == null){
+        return;
+    }
     xmlhttp.open("GET","http://127.0.0.1:5000/getmessageemail?token="+window.localStorage.token+"&email="+mail,true);
     xmlhttp.onreadystatechange = function() {
         if (xmlhttp.readyState==4 && xmlhttp.status==200) {
             var inf = document.getElementById("personalInfo").getElementsByTagName("label");
             var info = JSON.parse(xmlhttp.responseText);
-            console.log(info);
             var wall = document.getElementById("browseWall");
             if (info.success) {
                 document.getElementById("msgBrowse").innerHTML = "";
@@ -353,7 +344,6 @@ var clearWall = function(wall) {
 }
 
 var addToWall = function(msg, wall) {
-    console.log(msg.messages.length);
     if (msg.messages.length == 0) {
         return
     };
