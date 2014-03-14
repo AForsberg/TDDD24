@@ -188,7 +188,6 @@ def socket():
 		if request.environ.get('wsgi.websocket'):
 			ws = request.environ['wsgi.websocket']
 			connectedWS.append(ws)
-			print 'socket'
 			while True:
 				#recievedData = 
 				ws.receive()
